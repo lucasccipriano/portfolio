@@ -1,0 +1,16 @@
+# Lucas Cipriano
+
+> Lucas Cipriano is a Brazilian Product Designer based in Lisbon, Portugal, with 8 years of experience designing digital products used by millions in fintech, education, TV and streaming, social networks and the creator economy. Currently at Privacy; previously at NOS, Globo and Cielo. Open to on-site roles in Portugal and Europe, and remote roles for the USA, Latin America and Brazil.
+
+The site is available in English (/en) and Brazilian Portuguese (/pt-br).
+
+## Pages
+
+- [Home (English)](/en): introduction, selected work, about and testimonials
+- [Home (Português)](/pt-br): mesma página em português
+- [Case study — Designing the onboarding for a new TV experience (NOS)](/en/work/nos-tv-onboarding)
+- [Case study — Onboarding da nova experiência de TV (NOS)](/pt-br/work/nos-tv-onboarding)
+
+## Optional
+
+- [CV (PDF)](/cv/lucas-cipriano-cv.pdf)

@@ -1,0 +1,79 @@
+import type { Locale } from "@/i18n/config";
+
+/**
+ * Fonte única dos dados de perfil.
+ * Tudo que aparece no header, rodapé e JSON-LD sai daqui, para nunca divergir.
+ *
+ * TODO(Lucas): substituir os valores marcados com TODO pelos reais.
+ */
+
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://lucascipriano.com").replace(/\/$/, "");
+
+type Localized<T = string> = Record<Locale, T>;
+
+export const profile = {
+  name: "Lucas Cipriano",
+  /** Mantém o texto do Figma. Use exatamente o mesmo cargo no LinkedIn e demais perfis. */
+  jobTitle: {
+    en: "Product Designer Senior",
+    "pt-br": "Product Designer Sênior",
+  } satisfies Localized,
+  currentCompany: { name: "Privacy", url: "https://privacy.com.br" },
+  previousCompanies: ["NOS", "Globo", "Cielo"],
+  yearsOfExperience: 8,
+  careerStartYear: 2019,
+  location: {
+    city: "Lisbon",
+    cityLocalized: { en: "Lisbon", "pt-br": "Lisboa" } satisfies Localized,
+    countryCode: "PT",
+    timeZone: "Europe/Lisbon",
+  },
+  nationality: "BR",
+  languages: ["pt-BR", "en"],
+  knowsAbout: [
+    "Product Design",
+    "UX Design",
+    "UI Design",
+    "Interaction Design",
+    "User Research",
+    "Design Systems",
+    "Onboarding",
+    "TV and Streaming",
+    "Fintech",
+    "EdTech",
+    "Social Networks",
+    "Creator Economy",
+  ],
+  /** Descrição factual usada em meta description e JSON-LD (precisa refletir o que está visível na página). */
+  description: {
+    en: "Lucas Cipriano is a Brazilian Product Designer based in Lisbon, Portugal, with 8 years of experience designing digital products used by millions in fintech, education, TV and streaming, social networks and the creator economy. Currently at Privacy; previously at NOS, Globo and Cielo.",
+    "pt-br":
+      "Lucas Cipriano é um Product Designer brasileiro baseado em Lisboa, Portugal, com 8 anos de experiência em produtos digitais usados por milhões de pessoas em fintech, educação, TV e streaming, redes sociais e creator economy. Atualmente na Privacy; antes, NOS, Globo e Cielo.",
+  } satisfies Localized,
+  availability: {
+    onsite: { en: "On-site: Portugal, Europe", "pt-br": "Presencial: Portugal, Europa" } satisfies Localized,
+    remote: { en: "Remote: USA, Latin America, Brazil", "pt-br": "Remoto: EUA, América Latina, Brasil" } satisfies Localized,
+  },
+  image: "/images/about/portrait.jpg",
+  cv: {
+    // TODO(Lucas): colocar o PDF em /public/cv/ e atualizar o tamanho.
+    href: "/cv/lucas-cipriano-cv.pdf",
+    sizeLabel: null as string | null, // ex.: "220 KB"
+  },
+  contact: {
+    // TODO(Lucas): e-mail público de contato.
+    email: "TODO@example.com",
+  },
+  /** Perfis externos. Vão para os links da página e para `sameAs` no JSON-LD. */
+  social: {
+    // TODO(Lucas): URLs reais.
+    linkedin: "https://www.linkedin.com/in/TODO",
+    instagram: "https://www.instagram.com/TODO",
+    unsplash: "https://unsplash.com/@TODO",
+  },
+} as const;
+
+export const sameAs = Object.values(profile.social).filter((url) => !url.includes("TODO"));
+
+export const personId = `${siteUrl}/#person`;
+export const websiteId = `${siteUrl}/#website`;

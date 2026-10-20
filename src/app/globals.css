@@ -1,26 +1,173 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   Fonte: Satoshi (Fontshare, ITF Free Font License) — self-hosted.
+   Arquivo esperado em /public/fonts/Satoshi-Variable.woff2 (pesos 300–900).
+   O fallback métrico reduz o salto de layout (CLS) enquanto a fonte carrega.
+   ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi Fallback";
+  src: local("Arial");
+  size-adjust: 98%;
+  ascent-override: 98%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+/* ------------------------------------------------------------------
+   Design tokens
+   Camada primitiva (valores do Figma) → camada semântica (uso no código).
+   ------------------------------------------------------------------ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primitivos */
+  --gray-1000: #0b0b0b;
+  --gray-950: #111111;
+  --gray-900: #141414;
+  --gray-700: #666666;
+  --gray-550: #8a8a8a; /* Figma: #a0a0a0 — escurecido para passar 3:1 (texto grande) */
+  --gray-400: #aaaaaa;
+  --gray-300: #dbdbdb;
+  --gray-100: #f1f1f1;
+  --gray-50: #f8f8f8;
+  --white: #ffffff;
+  --orange-500: #f1792f; /* Figma — 2.79:1 no branco, reprova */
+  --orange-600: #e06a1f; /* ajustado — 3.36:1, passa para texto grande */
+  --orange-700: #c2560f; /* ajustado — 4.53:1, para texto pequeno */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@theme {
+  /* Cores semânticas */
+  --color-surface: var(--white);
+  --color-surface-subtle: var(--gray-50);
+  --color-surface-media: var(--gray-900);
+  --color-surface-placeholder: var(--gray-100);
+  --color-surface-inverse: var(--gray-1000);
+  --color-surface-inverse-raised: var(--gray-900);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-text-primary: var(--gray-950);
+  --color-text-secondary: var(--gray-700);
+  --color-text-muted: var(--gray-550); /* use só em texto ≥ 24px */
+  --color-text-accent: var(--orange-600); /* use só em texto ≥ 24px */
+  --color-text-accent-strong: var(--orange-700);
+  --color-text-inverse: var(--white);
+  --color-text-inverse-secondary: var(--gray-400);
+
+  --color-border: var(--gray-300);
+  --color-border-inverse: #2a2a2a;
+  --color-focus: var(--gray-950);
+  --color-focus-inverse: var(--white);
+
+  /* Tipografia */
+  --font-sans: "Satoshi", "Satoshi Fallback", ui-sans-serif, system-ui, sans-serif;
+
+  --text-caption: 0.875rem; /* 14 */
+  --text-caption--line-height: 1.2;
+  --text-body: 1rem; /* 16 */
+  --text-body--line-height: 1.2;
+  --text-body-lg: 1.125rem; /* 18 */
+  --text-body-lg--line-height: 1.5;
+  --text-brand: 1.25rem; /* 20 */
+  --text-brand--line-height: 1.2;
+  --text-lead: clamp(1.125rem, 1rem + 0.5vw, 1.5rem); /* 18 → 24 */
+  --text-lead--line-height: 1.5;
+  --text-subhero: clamp(1.25rem, 0.95rem + 1.2vw, 2rem); /* 20 → 32 */
+  --text-subhero--line-height: 1.2;
+  --text-title: clamp(1.75rem, 1.35rem + 1.6vw, 2.5rem); /* 28 → 40 */
+  --text-title--line-height: 1.15;
+  --text-hero: clamp(2rem, 1.15rem + 3.4vw, 3.5rem); /* 32 → 56 */
+  --text-hero--line-height: 1.2;
+  --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4rem); /* 40 → 64 */
+  --text-display--line-height: 1.2;
+
+  --tracking-tight: -0.03em;
+  --tracking-snug: -0.02em;
+  --tracking-wide: 0.01em;
+
+  /* Espaçamento de layout */
+  --spacing-gutter: clamp(1rem, 0.2rem + 3.4vw, 4rem); /* 16 → 64 */
+  --spacing-section: clamp(4rem, 2.5rem + 5vw, 7.5rem); /* 64 → 120 */
+
+  /* Raios */
+  --radius-media: 0.5rem; /* 8 */
+  --radius-card: 1rem; /* 16 */
+
+  /* Breakpoint extra para o frame desenhado (1440) */
+  --breakpoint-3xl: 90rem;
+
+  /* Animações */
+  --animate-marquee: marquee 60s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* header não é fixo, mas mantemos folga para o foco nunca ficar colado no topo */
+    scroll-padding-top: 1.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .on-inverse :focus-visible {
+    outline-color: var(--color-focus-inverse);
+  }
+
+  img,
+  svg {
+    max-width: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
 }

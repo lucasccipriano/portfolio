@@ -1,0 +1,176 @@
+import type { Locale } from "./config";
+
+const en = {
+  meta: {
+    homeTitle: "Lucas Cipriano — Product Designer in Lisbon",
+    notFoundTitle: "Page not found",
+  },
+  a11y: {
+    skipToContent: "Skip to content",
+    mainNav: "Main",
+    footerNav: "Footer",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    opensInNewTab: "(opens in a new tab)",
+    pauseMotion: "Pause animation",
+    playMotion: "Play animation",
+    heroGallery: "Selected product design work",
+    travelGallery: "Travel photographs",
+    localTime: "Local time in Lisbon",
+    testimonialsList: "Companies",
+    originalLanguageNote: "Original testimonial in Portuguese.",
+  },
+  nav: {
+    location: "Lisbon, PT",
+    work: "Work",
+    workYears: "19 → 26",
+    about: "About",
+    cv: "CV",
+    cvHint: "Resume",
+    contact: "Contact",
+    language: "Language",
+  },
+  hero: {
+    intro: "I’m Lucas — Product Designer with",
+    middle: "experience designing products used by millions.",
+    currently: "Currently at",
+    previously: "Previously: NOS, Globo and Cielo",
+  },
+  works: {
+    title: "Works",
+    subtitle: "Selected projects from the following companies",
+    seeMore: "See more",
+    seeMoreAbout: "about",
+  },
+  about: {
+    title: "About me",
+    subtitle: "Brazilian designer living in Lisbon",
+    seeMore: "See more",
+    seeMoreAbout: "about me",
+    bio: "I’m a product designer with 8 years of experience in digital products across different markets (fintech, education, TV and streaming, social networks and the creator economy), and I love travelling and capturing it all in photographs.",
+    email: "Email",
+  },
+  testimonials: {
+    title: "Testimonials",
+    singular: "Testimonial",
+  },
+  closing: {
+    thanks: "Thank you",
+    openTo: "Product Designer open to select opportunities",
+  },
+  footer: {
+    connect: "Let’s connect",
+    sendMessage: "Send a message",
+    me: "Me",
+    cvLong: "CV (Resume)",
+    rights: "All rights reserved",
+  },
+  project: {
+    backToWork: "Back to work",
+    summaryTitle: "Summary",
+    company: "Company",
+    role: "Role",
+    period: "Period",
+    platforms: "Platforms",
+    team: "Team",
+    published: "Published",
+    updated: "Updated",
+    fullCaseSoon: "The full case study is being published. Meanwhile, get in touch to see it in a call.",
+  },
+  notFound: {
+    title: "This page doesn’t exist",
+    body: "The link may be broken or the page may have moved.",
+    cta: "Go to the home page",
+  },
+} as const;
+
+type Dictionary = { [K in keyof typeof en]: { [P in keyof (typeof en)[K]]: string } };
+
+const ptBr: Dictionary = {
+  meta: {
+    homeTitle: "Lucas Cipriano — Product Designer em Lisboa",
+    notFoundTitle: "Página não encontrada",
+  },
+  a11y: {
+    skipToContent: "Pular para o conteúdo",
+    mainNav: "Principal",
+    footerNav: "Rodapé",
+    openMenu: "Abrir menu",
+    closeMenu: "Fechar menu",
+    opensInNewTab: "(abre em nova aba)",
+    pauseMotion: "Pausar animação",
+    playMotion: "Retomar animação",
+    heroGallery: "Trabalhos de product design selecionados",
+    travelGallery: "Fotografias de viagem",
+    localTime: "Hora local em Lisboa",
+    testimonialsList: "Empresas",
+    originalLanguageNote: "Depoimento original em português.",
+  },
+  nav: {
+    location: "Lisboa, PT",
+    work: "Trabalhos",
+    workYears: "19 → 26",
+    about: "Sobre",
+    cv: "CV",
+    cvHint: "Currículo",
+    contact: "Contato",
+    language: "Idioma",
+  },
+  hero: {
+    intro: "Sou o Lucas — Product Designer com",
+    middle: "experiência em produtos usados por milhões de pessoas.",
+    currently: "Atualmente na",
+    previously: "Antes: NOS, Globo e Cielo",
+  },
+  works: {
+    title: "Trabalhos",
+    subtitle: "Projetos selecionados das seguintes empresas",
+    seeMore: "Ver mais",
+    seeMoreAbout: "sobre",
+  },
+  about: {
+    title: "Sobre mim",
+    subtitle: "Designer brasileiro vivendo em Lisboa",
+    seeMore: "Ver mais",
+    seeMoreAbout: "sobre mim",
+    bio: "Sou um product designer com 8 anos de experiência com produtos digitais em diferentes mercados (fintech, educação, TV e streaming, redes sociais e creator economy) e que ama viajar e registrar tudo em fotografias.",
+    email: "E-mail",
+  },
+  testimonials: {
+    title: "Depoimentos",
+    singular: "Depoimento",
+  },
+  closing: {
+    thanks: "Obrigado",
+    openTo: "Product Designer aberto a novas oportunidades",
+  },
+  footer: {
+    connect: "Vamos conversar",
+    sendMessage: "Enviar mensagem",
+    me: "Eu",
+    cvLong: "CV (Currículo)",
+    rights: "Todos os direitos reservados",
+  },
+  project: {
+    backToWork: "Voltar aos trabalhos",
+    summaryTitle: "Resumo",
+    company: "Empresa",
+    role: "Papel",
+    period: "Período",
+    platforms: "Plataformas",
+    team: "Equipe",
+    published: "Publicado em",
+    updated: "Atualizado em",
+    fullCaseSoon: "O case completo está sendo publicado. Enquanto isso, fale comigo para vê-lo numa conversa.",
+  },
+  notFound: {
+    title: "Esta página não existe",
+    body: "O link pode estar quebrado ou a página pode ter mudado de lugar.",
+    cta: "Ir para a página inicial",
+  },
+};
+
+const dictionaries: Record<Locale, Dictionary> = { en, "pt-br": ptBr };
+
+export type { Dictionary };
+export const getDictionary = (locale: Locale): Dictionary => dictionaries[locale];
