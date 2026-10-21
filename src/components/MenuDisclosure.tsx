@@ -29,7 +29,8 @@ export function MenuDisclosure({ openLabel, closeLabel, children }: Props) {
   useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") close(true);
+      // Ignora o Esc já tratado por um menu interno (ex.: menu de e-mail).
+      if (event.key === "Escape" && !event.defaultPrevented) close(true);
     };
     const onPointer = (event: PointerEvent) => {
       if (!wrapperRef.current?.contains(event.target as Node)) close(false);

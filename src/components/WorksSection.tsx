@@ -14,8 +14,8 @@ export function WorksSection({ locale, dict }: Props) {
 
   return (
     <section id="work" aria-labelledby="work-title" className="container-page">
-      <div className="border-b border-border pt-section pb-[clamp(4rem,3rem+3vw,8.125rem)]">
-        <header className="flex flex-col gap-2">
+      <div className="pt-section pb-[clamp(4rem,3rem+3vw,8.125rem)]">
+        <header data-reveal className="flex flex-col gap-2">
           <SectionHeading id="work-title" count={projects.length} countLabel={countLabel}>
             {dict.works.title}
           </SectionHeading>
@@ -24,12 +24,13 @@ export function WorksSection({ locale, dict }: Props) {
 
         <ul className="mt-[clamp(3rem,2rem+3vw,5rem)] flex flex-col gap-section">
           {projects.map((project) => (
-            <li key={project.slug}>
+            <li key={project.slug} data-reveal>
               <ProjectCard project={project} locale={locale} dict={dict} />
             </li>
           ))}
         </ul>
       </div>
+      <div data-reveal aria-hidden="true" className="h-px bg-border" />
     </section>
   );
 }

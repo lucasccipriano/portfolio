@@ -7,6 +7,8 @@ import { hasLocale, htmlLang, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { profile, siteUrl } from "@/content/profile";
 import { baseOpenGraph } from "@/lib/metadata";
+import { Reveal } from "@/components/Reveal";
+import { ScrollReset } from "@/components/ScrollReset";
 
 export async function generateStaticParams() {
   return locales.map((l) => ({ lang: l }));
@@ -44,7 +46,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   preload("/fonts/Satoshi-Variable.woff2", { as: "font", type: "font/woff2", crossOrigin: "anonymous" });
 
   return (
-    <html lang={htmlLang[locale]}>
+    <html lang={htmlLang[locale]} suppressHydrationWarning>
       <body className="min-h-dvh">
         <a
           href="#main"
@@ -53,6 +55,8 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
           {dict.a11y.skipToContent}
         </a>
         {children}
+        <Reveal />
+        <ScrollReset />
       </body>
     </html>
   );

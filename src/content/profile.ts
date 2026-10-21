@@ -61,15 +61,13 @@ export const profile = {
     sizeLabel: null as string | null, // ex.: "220 KB"
   },
   contact: {
-    // TODO(Lucas): e-mail público de contato.
-    email: "TODO@example.com",
+    email: "lucasccipriano@gmail.com",
   },
   /** Perfis externos. Vão para os links da página e para `sameAs` no JSON-LD. */
   social: {
-    // TODO(Lucas): URLs reais.
-    linkedin: "https://www.linkedin.com/in/TODO",
-    instagram: "https://www.instagram.com/TODO",
-    unsplash: "https://unsplash.com/@TODO",
+    linkedin: "https://www.linkedin.com/in/lucas-cipriano/",
+    instagram: "https://www.instagram.com/lucasccipriano/",
+    unsplash: "https://unsplash.com/pt-br/@lucasccipriano",
   },
 } as const;
 

@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Project } from "@/content/projects";
+import { HoverVideo } from "./HoverVideo";
 import { ArrowRightIcon } from "./Icons";
 
 type Props = { project: Project; locale: Locale; dict: Dictionary; headingLevel?: "h3" | "h2" };
@@ -32,27 +32,24 @@ export function ProjectCard({ project, locale, dict, headingLevel: Heading = "h3
             </span>
           </p>
           <Heading className="max-w-[13em] text-title font-medium leading-none tracking-tight text-text-primary">
-            <Link
+            <a
               href={href}
               className="after:absolute after:inset-0 after:z-10 after:content-[''] focus-visible:outline-none"
             >
               {project.title[locale]}
-            </Link>
+            </a>
           </Heading>
         </div>
 
-        <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-            <p className="max-w-[23.6875rem] text-body-lg text-text-secondary">{project.summary[locale]}</p>
-            <span
-              aria-hidden="true"
-              className="inline-flex shrink-0 items-center gap-2 text-body font-medium uppercase tracking-[-0.026em] text-text-primary underline-offset-4 group-hover:underline"
-            >
-              {dict.works.seeMore}
-              <ArrowRightIcon size={20} className="transition-transform group-hover:translate-x-1" />
-            </span>
-          </div>
-          <hr className="border-border" />
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <p className="max-w-[23.6875rem] text-body-lg text-text-secondary">{project.summary[locale]}</p>
+          <span
+            aria-hidden="true"
+            className="inline-flex shrink-0 items-center gap-2 text-body font-medium uppercase tracking-[-0.026em] text-text-primary underline-offset-4 group-hover:underline"
+          >
+            {dict.works.seeMore}
+            <ArrowRightIcon size={20} className="transition-transform group-hover:translate-x-1" />
+          </span>
         </div>
       </div>
 
@@ -65,6 +62,7 @@ export function ProjectCard({ project, locale, dict, headingLevel: Heading = "h3
           sizes="(min-width: 1440px) 775px, (min-width: 1024px) 54vw, 100vw"
           className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
         />
+        {project.hoverVideo && <HoverVideo sources={project.hoverVideo} />}
       </div>
     </article>
   );

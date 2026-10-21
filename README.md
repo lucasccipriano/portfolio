@@ -42,6 +42,9 @@ Procure por `TODO(Lucas)` para ver o que ainda falta preencher.
 
 ## Arquivos que faltam
 
+Coloque os materiais brutos (exportações do Figma, fonte, PDF, links) na pasta `content/` na raiz do projeto. Daí eles são organizados para `public/`.
+
+
 - `public/fonts/Satoshi-Variable.woff2` — baixe em fontshare.com/fonts/satoshi (licença gratuita ITF FFL)
 - `public/images/**` — imagens exportadas do Figma (nomes em `src/content/*.ts`)
 - `public/images/brand/obrigado.svg` e `public/images/brand/globo.svg`

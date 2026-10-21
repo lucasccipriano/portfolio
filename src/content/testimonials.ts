@@ -22,15 +22,21 @@ export type Testimonial = {
 };
 
 /**
- * O Figma lista Privacy, NOS, Globo, Cielo e Unigranrio, mas só o depoimento da Globo tem texto.
- * Só aparecem na página os itens com depoimento real.
- * TODO(Lucas): adicionar os demais depoimentos (texto, autor, cargo, foto, logo).
+ * Empresas listadas na seção, na ordem do Figma. As que ainda não têm depoimento
+ * aparecem na lista, mas não podem ser selecionadas.
+ */
+export const testimonialCompanies = ["Privacy", "NOS", "Globo", "Cielo", "Unigranrio"];
+
+/**
+ * Depoimentos reais. Ligados à lista acima pelo nome da empresa (`company`).
+ * TODO(Lucas): adicionar os demais depoimentos (texto, autor, cargo, foto, logo)
+ * e, se quiser o painel da direita do Figma, o `project` de cada um.
  */
 export const testimonials: Testimonial[] = [
   {
     id: "globo",
     company: "Globo",
-    logo: { src: "/images/brand/globo.svg", width: 83, height: 24 },
+    logo: { src: "/images/testimonials/globo-logo.svg", width: 83, height: 24 },
     quoteLang: "pt-BR",
     quote: [
       "O Lucas é um product designer fora da curva e muito experiente. Trabalhamos juntos na Globo, onde o Lucas atuou com excelência de ponta a ponta na evolução dos produtos, desde as fases de discovery, prototipagem, handoffs e acompanhamento de resultados.",
@@ -40,7 +46,7 @@ export const testimonials: Testimonial[] = [
     author: {
       name: "Rafael Maciel",
       role: { en: "Staff Product Designer at Globo", "pt-br": "Staff Product Designer na Globo" },
-      photo: "/images/testimonials/rafael-maciel.jpg",
+      photo: "/images/testimonials/rafael.png",
     },
   },
 ];

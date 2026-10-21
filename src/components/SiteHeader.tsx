@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { htmlLang, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { profile } from "@/content/profile";
+import { EmailMenu } from "./EmailMenu";
 import { ArrowUpRightIcon } from "./Icons";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { LisbonClock } from "./LisbonClock";
@@ -20,12 +20,12 @@ export function SiteHeader({ locale, dict, isHome = false }: Props) {
   const anchor = (id: string) => (isHome ? `#${id}` : `${home}#${id}`);
 
   return (
-    <header className="relative">
-      <div className="container-page flex items-center justify-between py-6 lg:py-8">
-        <Link href={home} className="flex flex-col" aria-label={`${profile.name}, ${profile.jobTitle[locale]}`}>
+    <header className="sticky top-0 z-40 flex h-(--header-h) items-center bg-white/70 backdrop-blur-xl backdrop-saturate-150 supports-[not(backdrop-filter:blur(1px))]:bg-white/95">
+      <div className="container-page flex items-center justify-between">
+        <a href={home} className="flex flex-col" aria-label={`${profile.name}, ${profile.jobTitle[locale]}`}>
           <span className="text-brand font-bold tracking-wide text-text-primary">{profile.name}</span>
           <span className="text-body tracking-wide text-text-secondary">{profile.jobTitle[locale]}</span>
-        </Link>
+        </a>
 
         <MenuDisclosure openLabel={dict.a11y.openMenu} closeLabel={dict.a11y.closeMenu}>
           <nav aria-label={dict.a11y.mainNav} className="lg:ml-auto lg:w-[min(100%,49.5625rem)]">
@@ -68,9 +68,14 @@ export function SiteHeader({ locale, dict, isHome = false }: Props) {
                 </a>
               </li>
               <li>
-                <a href={anchor("contact")} className={linkBase}>
+                <EmailMenu
+                  email={profile.contact.email}
+                  labels={{ ...dict.email, opensInNewTab: dict.a11y.opensInNewTab }}
+                  triggerClassName={`${linkBase} cursor-pointer text-left`}
+                  align="end-lg"
+                >
                   <span className={`label ${itemLabel}`}>{dict.nav.contact}</span>
-                </a>
+                </EmailMenu>
               </li>
               <li className="py-3 lg:py-0">
                 <LanguageSwitcher current={locale} label={dict.nav.language} />

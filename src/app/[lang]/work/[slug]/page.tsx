@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { hasLocale, htmlLang, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -12,6 +11,15 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { ClosingFooter } from "@/components/ClosingFooter";
 import { JsonLd } from "@/components/JsonLd";
 import { ArrowRightIcon } from "@/components/Icons";
+import { CaseStudy } from "@/components/case/CaseStudy";
+import { CaseHeader } from "@/components/case/CaseHeader";
+import { getCase } from "@/content/cases";
+
+/**
+ * Página toda depende do slug, e todos os slugs são gerados no build (generateStaticParams):
+ * a navegação pode esperar a página pronta, sem estado de carregamento parcial.
+ */
+export const instant = false;
 
 export async function generateStaticParams() {
   return locales.flatMap((lang) => projects.map((p) => ({ lang, slug: p.slug })));
@@ -44,6 +52,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/work/[s
   const project = getProject(slug);
   if (!hasLocale(lang) || !project) notFound();
   const dict = getDictionary(lang);
+  const caseStudy = getCase(project.slug);
   const date = new Intl.DateTimeFormat(htmlLang[lang], { dateStyle: "long", timeZone: "UTC" });
 
   const facts = [
@@ -56,17 +65,24 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/work/[s
 
   return (
     <>
-      <SiteHeader locale={lang} dict={dict} />
+      {caseStudy ? (
+        <CaseHeader locale={lang} dict={dict} caseName={project.shortTitle[lang]} />
+      ) : (
+        <SiteHeader locale={lang} dict={dict} />
+      )}
       <main id="main" tabIndex={-1} className="focus:outline-none">
+        {caseStudy ? (
+          <CaseStudy project={project} content={caseStudy.content[lang]} folder={caseStudy.folder} locale={lang} />
+        ) : (
         <article className="container-page pt-[clamp(2rem,1rem+4vw,5rem)] pb-section">
           <nav aria-label="Breadcrumb" className="mb-8">
-            <Link
+            <a
               href={`/${lang}#work`}
               className="inline-flex min-h-6 items-center gap-2 text-body font-medium text-text-secondary underline-offset-4 hover:text-text-primary hover:underline"
             >
               <ArrowRightIcon size={16} className="rotate-180" />
               {dict.project.backToWork}
-            </Link>
+            </a>
           </nav>
 
           <header className="flex flex-col gap-6">
@@ -118,6 +134,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/work/[s
 
           <p className="mt-12 max-w-[40rem] text-body-lg text-text-secondary">{dict.project.fullCaseSoon}</p>
         </article>
+        )}
       </main>
       <ClosingFooter locale={lang} dict={dict} />
       <JsonLd data={projectGraph(project, lang)} />

@@ -1,8 +1,9 @@
-import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { profile } from "@/content/profile";
+import { revealDelay } from "@/lib/reveal";
+import { EmailMenu } from "./EmailMenu";
 import { ExternalLink } from "./ExternalLink";
 
 type Props = { locale: Locale; dict: Dictionary; isHome?: boolean };
@@ -40,18 +41,20 @@ export function ClosingFooter({ locale, dict, isHome = false }: Props) {
         <div className="relative" style={{ height: cq(FRAME_H) }}>
           {/* eslint-disable-next-line @next/next/no-img-element -- SVG vetorial do Figma, sem ganho com otimização */}
           <img
-            src="/images/brand/obrigado.svg"
+            src="/images/footer/obrigado.svg"
             alt=""
             width={1312}
             height={208}
+            data-reveal
             className="absolute"
             style={{ left: cq(64), top: cq(120), width: cq(1312), height: "auto" }}
           />
-          {thanks.map((item) => (
+          {thanks.map((item, index) => (
             <span
               key={item.lang}
               lang={item.lang}
               dir={item.dir}
+              data-reveal
               className="absolute whitespace-nowrap rounded-full bg-surface-inverse-raised font-medium tracking-[-0.03em] text-text-inverse max-sm:hidden"
               style={
                 {
@@ -61,6 +64,8 @@ export function ClosingFooter({ locale, dict, isHome = false }: Props) {
                   lineHeight: 0.72,
                   padding: item.compact ? `${cq(24)} ${cq(16)}` : cq(24),
                   transform: item.rotate ? `rotate(${item.rotate}deg)` : undefined,
+                  // Os "obrigados" entram em cascata depois do OBRIGADO principal.
+                  ...revealDelay(150 + index * 70),
                 } as CSSProperties
               }
             >
@@ -71,7 +76,7 @@ export function ClosingFooter({ locale, dict, isHome = false }: Props) {
       </div>
 
       <div className="container-page">
-        <div className="mx-auto mt-6 flex max-w-[38.875rem] flex-col gap-2 pb-10">
+        <div data-reveal className="mx-auto mt-6 flex max-w-[38.875rem] flex-col gap-2 pb-10">
           <p className="text-subhero font-medium leading-none tracking-[-0.03em]">{dict.closing.openTo}</p>
           <p className="flex flex-col gap-1 text-body-lg leading-none text-text-inverse-secondary sm:flex-row sm:justify-between">
             <span>{profile.availability.onsite[locale]}</span>
@@ -79,7 +84,8 @@ export function ClosingFooter({ locale, dict, isHome = false }: Props) {
           </p>
         </div>
 
-        <div className="flex flex-col gap-6 border-t border-border-inverse pt-10 pb-8">
+        <div data-reveal aria-hidden="true" className="h-px bg-border-inverse" />
+        <div data-reveal style={revealDelay(120)} className="flex flex-col gap-6 pt-10 pb-8">
           <div className="grid gap-10 sm:grid-cols-[1fr_auto_auto] sm:gap-x-[clamp(3rem,15vw,28rem)] lg:grid-cols-[1fr_1fr_auto]">
             <p className="flex flex-col">
               <span className="text-brand font-bold tracking-wide">{profile.name}</span>
@@ -97,9 +103,14 @@ export function ClosingFooter({ locale, dict, isHome = false }: Props) {
                   </ExternalLink>
                 </li>
                 <li>
-                  <a href={`mailto:${profile.contact.email}`} className={footerLink}>
+                  <EmailMenu
+                    email={profile.contact.email}
+                    labels={{ ...dict.email, opensInNewTab: dict.a11y.opensInNewTab }}
+                    triggerClassName={`${footerLink} cursor-pointer`}
+                    placement="top"
+                  >
                     {dict.footer.sendMessage}
-                  </a>
+                  </EmailMenu>
                 </li>
               </ul>
             </nav>
@@ -110,9 +121,9 @@ export function ClosingFooter({ locale, dict, isHome = false }: Props) {
               </h3>
               <ul className="mt-3 flex flex-col gap-3">
                 <li>
-                  <Link href={anchor("about")} className={footerLink}>
+                  <a href={anchor("about")} className={footerLink}>
                     {dict.nav.about}
-                  </Link>
+                  </a>
                 </li>
                 <li>
                   <a href={profile.cv.href} target="_blank" rel="noopener" type="application/pdf" className={footerLink}>

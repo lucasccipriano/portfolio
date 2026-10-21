@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { lang } from "next/root-params";
 import { hasLocale, defaultLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -19,12 +18,12 @@ export default async function NotFound() {
         <p className="text-subhero text-text-secondary">404</p>
         <h1 className="text-hero font-medium tracking-tight">{dict.notFound.title}</h1>
         <p className="max-w-[32rem] text-lead text-text-secondary">{dict.notFound.body}</p>
-        <Link
+        <a
           href={`/${locale}`}
           className="inline-flex min-h-11 w-fit items-center rounded-full bg-text-primary px-6 text-body font-medium text-text-inverse hover:bg-[#333]"
         >
           {dict.notFound.cta}
-        </Link>
+        </a>
       </main>
       <ClosingFooter locale={locale} dict={dict} />
     </>

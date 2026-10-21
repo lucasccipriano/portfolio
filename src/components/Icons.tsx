@@ -55,22 +55,3 @@ export function PlayIcon({ size = 16, className }: IconProps) {
     </svg>
   );
 }
-
-/** Bandeira de Portugal (Figma: 30×20, cantos arredondados). */
-export function FlagPortugal({ className }: { className?: string }) {
-  return (
-    <svg width="30" height="20" viewBox="0 0 30 20" className={className} {...decorative}>
-      <defs>
-        <clipPath id="flag-pt-clip">
-          <rect width="30" height="20" rx="10" />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#flag-pt-clip)">
-        <rect width="12" height="20" fill="#046A38" />
-        <rect x="12" width="18" height="20" fill="#DA291C" />
-        <circle cx="12" cy="10" r="4.6" fill="#FFE900" />
-        <path d="M9.6 7.4h4.8v3.8a2.4 2.4 0 0 1-4.8 0z" fill="#fff" stroke="#DA291C" strokeWidth=".9" />
-      </g>
-    </svg>
-  );
-}
