@@ -90,10 +90,18 @@ export const isSamePage = (previous: string | null, next: string) =>
 let instantSwapLang: string | null = null;
 export const startInstantSwap = (lang: string) => {
   instantSwapLang = lang;
+  // O topo da página (.reveal-intro, fade em CSS) também não deve repetir o fade na página nova.
+  if (!document.getElementById("instant-swap-style")) {
+    const style = document.createElement("style");
+    style.id = "instant-swap-style";
+    style.textContent = ".reveal-intro{animation:none!important}";
+    document.head.appendChild(style);
+  }
 };
 export const instantSwapLangValue = () => instantSwapLang;
 export const endInstantSwap = () => {
   instantSwapLang = null;
+  document.getElementById("instant-swap-style")?.remove();
 };
 
 /** Atraso do efeito de entrada (`data-reveal`), para criar cascata entre elementos. */

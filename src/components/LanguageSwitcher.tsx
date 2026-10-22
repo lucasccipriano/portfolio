@@ -37,7 +37,6 @@ export function LanguageSwitcher({ current, label }: Props) {
                 hrefLang={hrefLang[locale]}
                 lang={hrefLang[locale]}
                 aria-current={isCurrent ? "true" : undefined}
-                aria-label={full[locale]}
                 prefetch={false}
                 scroll={false}
                 onClick={() => {
@@ -47,6 +46,8 @@ export function LanguageSwitcher({ current, label }: Props) {
                 className="inline-flex min-h-6 min-w-6 items-center justify-center px-1 text-text-secondary underline-offset-4 hover:text-text-primary hover:underline aria-[current=true]:text-text-primary aria-[current=true]:underline"
               >
                 {short[locale]}
+                {/* Nome acessível começa pelo texto visível ("PT") e completa com o idioma (WCAG 2.5.3). */}
+                <span className="sr-only">, {full[locale]}</span>
               </Link>
             </li>
           );

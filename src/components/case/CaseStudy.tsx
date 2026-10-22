@@ -91,13 +91,13 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
     <article>
       {/* ---------- Abertura ---------- */}
       <header className="container-page pt-[clamp(2.5rem,1rem+5vw,5rem)] text-center">
-        <h1 data-reveal className="mx-auto max-w-[14em] text-case-title font-medium tracking-[-0.03em] text-balance">
+        <h1 className="reveal-intro mx-auto max-w-[14em] text-case-title font-medium tracking-[-0.03em] text-balance">
           {project.title[locale]}
         </h1>
-        <p data-reveal style={revealDelay(120)} className={`mx-auto mt-6 max-w-[60.5rem] ${text24} font-normal text-balance text-text-secondary`}>{project.summary[locale]}</p>
+        <p style={revealDelay(120)} className={`reveal-intro mx-auto mt-6 max-w-[60.5rem] ${text24} font-normal text-balance text-text-secondary`}>{project.summary[locale]}</p>
       </header>
 
-      <div data-reveal style={revealDelay(240)} className="container-page mt-[clamp(2.5rem,1.5rem+3vw,4.5rem)]">
+      <div style={revealDelay(240)} className="reveal-intro container-page mt-[clamp(2.5rem,1.5rem+3vw,4.5rem)]">
         {c.heroVideo ? (
           <CaseVideo
             {...c.heroVideo}
@@ -106,6 +106,8 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
             enlargeLabel={c.labels.enlargeVideo}
             closeLabel={c.labels.close}
             className="rounded-[1.5rem]"
+            sizes="(min-width: 1440px) 1312px, calc(100vw - 2 * var(--spacing-gutter))"
+            preload
           />
         ) : (
           fig(c.heroImage, { className: "rounded-[1.5rem]", priority: true })
@@ -485,6 +487,7 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
                     enlargeLabel={c.labels.enlargeVideo}
                     closeLabel={c.labels.close}
                     className="rounded-media"
+                    sizes="(min-width: 1440px) 636px, (min-width: 768px) 48vw, 100vw"
                   />
                 ) : (
                   fig(screen.image, { className: "rounded-media", sizes: "(min-width: 768px) 636px, 100vw" })

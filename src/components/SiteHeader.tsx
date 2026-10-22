@@ -22,8 +22,10 @@ export function SiteHeader({ locale, dict, isHome = false }: Props) {
   return (
     <header className="sticky top-0 z-40 flex h-(--header-h) items-center bg-white/70 backdrop-blur-xl backdrop-saturate-150 supports-[not(backdrop-filter:blur(1px))]:bg-white/95">
       <div className="container-page flex items-center justify-between">
-        <a href={home} className="flex flex-col" aria-label={`${profile.name}, ${profile.jobTitle[locale]}`}>
+        {/* Nome acessível = texto visível (WCAG 2.5.3): a vírgula escondida só separa as duas linhas na leitura. */}
+        <a href={home} className="flex flex-col">
           <span className="text-brand font-bold tracking-wide text-text-primary">{profile.name}</span>
+          <span className="sr-only">, </span>
           <span className="text-body tracking-wide text-text-secondary">{profile.jobTitle[locale]}</span>
         </a>
 

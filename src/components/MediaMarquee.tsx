@@ -36,6 +36,7 @@ const variants = {
   hero: {
     card: () => "aspect-[970/550] w-[min(80vw,60.625rem)] bg-surface-media",
     sizes: "(min-width: 1213px) 970px, 80vw",
+    portraitSizes: "(min-width: 1213px) 970px, 80vw",
     eagerFirst: true,
     /** Espaço entre os cards (Figma: 16px). */
     list: "gap-4 pr-4",
@@ -43,7 +44,9 @@ const variants = {
   about: {
     card: (item: CarouselImage) =>
       `h-(--about-h) bg-surface-placeholder ${item.shape === "portrait" ? "aspect-[200/278]" : "aspect-video"}`,
-    sizes: "(min-width: 768px) 500px, 340px",
+    // Largura real do card: altura (--about-h) × proporção. Retrato ≈ 0,72 × altura; paisagem ≈ 1,78 × altura.
+    sizes: "(min-width: 1440px) 495px, (max-width: 533px) 342px, calc((9rem + 9vw) * 1.78)",
+    portraitSizes: "(min-width: 1440px) 200px, (max-width: 533px) 138px, calc((9rem + 9vw) * 0.72)",
     eagerFirst: false,
     /** Espaço entre as fotos: 8px. */
     list: "gap-2 pr-2",
@@ -108,7 +111,51 @@ export function MediaMarquee({
   const [openedWithKeyboard, setOpenedWithKeyboard] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
-  const running = !pinned && !hovering && !keyboardFocus && !dragging && openIndex === null && !reducedMotion;
+  /** O carrossel está (perto de estar) na tela? Fora dela a animação para: não gasta CPU à toa. */
+  const [inView, setInView] = useState(false);
+  /** Só começa a andar depois que a página terminou de carregar (não compete com o carregamento). */
+  const [pageReady, setPageReady] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  /** Largura de uma volta (medida só quando muda, e não a cada quadro). */
+  const loopWidth = useRef(0);
+
+  const running =
+    inView && pageReady && !pinned && !hovering && !keyboardFocus && !dragging && openIndex === null && !reducedMotion;
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { rootMargin: "100px 0px" });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    let timer = 0;
+    const start = () => {
+      // Espera o navegador ficar livre (ou no máximo 1,5s) depois do "load".
+      const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 300));
+      timer = window.setTimeout(() => idle(() => setPageReady(true), { timeout: 1500 }), 300);
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("load", start);
+    };
+  }, []);
+
+  useEffect(() => {
+    const list = firstListRef.current;
+    if (!list) return;
+    const measure = () => {
+      loopWidth.current = list.offsetWidth;
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(list);
+    return () => observer.disconnect();
+  }, []);
 
   // Posição "contínua" (com fração de pixel), para a animação lenta não travar no arredondamento.
   const pos = useRef(0);
@@ -120,7 +167,7 @@ export function MediaMarquee({
   /** Mantém a posição dentro de uma volta, para o loop ser infinito nos dois sentidos. */
   const scrollToPos = useCallback((value: number) => {
     const el = scrollerRef.current;
-    const loop = firstListRef.current?.offsetWidth ?? 0;
+    const loop = loopWidth.current;
     if (!el) return;
     pos.current = loop ? ((value % loop) + loop) % loop : value;
     el.scrollLeft = pos.current;
@@ -143,7 +190,7 @@ export function MediaMarquee({
     pos.current = el.scrollLeft;
     let last = performance.now();
     let frame = requestAnimationFrame(function tick(now) {
-      const loop = firstListRef.current?.offsetWidth ?? 0;
+      const loop = loopWidth.current;
       const dt = Math.min(now - last, 100) / 1000; // evita saltos ao voltar de outra aba
       last = now;
       if (loop) {
@@ -244,7 +291,7 @@ export function MediaMarquee({
             <Image
               src={item.image}
               alt={copy ? "" : item.alt[locale]}
-              sizes={config.sizes}
+              sizes={item.shape === "portrait" ? config.portraitSizes : config.sizes}
               // Telas de interface têm texto pequeno: qualidade acima do padrão (75) evita borrões.
               quality={item.quality ?? 90}
               draggable={false}
@@ -287,6 +334,7 @@ export function MediaMarquee({
 
   return (
     <section
+      ref={sectionRef}
       aria-label={label}
       className="relative"
       style={variant === "about" ? ({ "--about-h": ABOUT_HEIGHT } as CSSProperties) : undefined}

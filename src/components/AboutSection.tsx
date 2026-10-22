@@ -73,7 +73,8 @@ export function AboutSection({ locale, dict }: Props) {
                   alt={portrait.alt[locale]}
                   width={portrait.width}
                   height={portrait.height}
-                  sizes="210px"
+                  // Largura real: altura do carrossel (--about-h) × 209/278.
+                  sizes="(min-width: 1440px) 210px, (max-width: 533px) 145px, calc((9rem + 9vw) * 0.752)"
                   className="size-full object-cover object-bottom"
                 />
               </div>

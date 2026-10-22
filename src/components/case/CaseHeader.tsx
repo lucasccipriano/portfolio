@@ -13,14 +13,12 @@ export function CaseHeader({ locale, dict, caseName }: Props) {
   return (
     <header className="sticky top-0 z-40 flex h-(--header-h) items-center bg-white/70 backdrop-blur-xl backdrop-saturate-150 supports-[not(backdrop-filter:blur(1px))]:bg-white/95">
       <div className="container-page flex items-center justify-between gap-6">
-        <a
-          href={home}
-          className="flex flex-col"
-          aria-label={`${profile.name}, ${profile.jobTitle[locale]}`}
-        >
+        {/* Nome acessível = texto visível (WCAG 2.5.3): a vírgula escondida só separa as duas linhas na leitura. */}
+        <a href={home} className="flex flex-col">
           <span className="whitespace-nowrap text-brand font-bold tracking-wide text-[#1b1818]">
             {profile.name}
           </span>
+          <span className="sr-only">, </span>
           <span className="text-body leading-normal tracking-wide text-text-secondary">
             {caseName}
           </span>

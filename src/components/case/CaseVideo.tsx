@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { isRevealed, revealActive } from "@/lib/reveal";
 import { LightboxDialog } from "../ImageLightbox";
@@ -16,6 +17,10 @@ type Props = {
   enlargeLabel: string;
   closeLabel: string;
   className?: string;
+  /** Largura exibida, para a imagem de capa (poster) vir no tamanho certo. */
+  sizes?: string;
+  /** Vídeo no topo da página: a capa é pré-carregada com prioridade (é o maior elemento da tela). */
+  preload?: boolean;
 };
 
 /**
@@ -25,9 +30,23 @@ type Props = {
  * - Pausa sozinho quando sai da tela, para não gastar bateria/CPU.
  * - Clicar no vídeo abre ampliado (mesmo overlay das imagens), continuando do mesmo ponto e com controles.
  */
-export function CaseVideo({ webm, mp4, poster, description, pauseLabel, playLabel, enlargeLabel, closeLabel, className = "" }: Props) {
+export function CaseVideo({
+  webm,
+  mp4,
+  poster,
+  description,
+  pauseLabel,
+  playLabel,
+  enlargeLabel,
+  closeLabel,
+  className = "",
+  sizes = "100vw",
+  preload = false,
+}: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  /** O vídeo já tem quadro para mostrar? Até lá aparece a capa otimizada (imagem por baixo). */
+  const [hasFrame, setHasFrame] = useState(false);
   // Pausa escolhida pela pessoa (ou por "reduzir movimento"): o vídeo não volta sozinho.
   const userPaused = useRef(false);
   const [expanded, setExpanded] = useState(false);
@@ -108,18 +127,32 @@ export function CaseVideo({ webm, mp4, poster, description, pauseLabel, playLabe
 
   return (
     <figure className={`relative overflow-hidden bg-surface-media ${className}`} style={{ aspectRatio: 16 / 9 }}>
+      {/* Capa como imagem otimizada (AVIF/WebP no tamanho exibido) em vez do `poster` do vídeo,
+          que seria sempre o JPG grande. Fica por baixo até o vídeo ter o primeiro quadro. */}
+      <Image
+        src={poster}
+        alt=""
+        fill
+        sizes={sizes}
+        preload={preload}
+        fetchPriority={preload ? "high" : undefined}
+        loading={preload ? "eager" : "lazy"}
+        className="object-cover"
+      />
       <video
         ref={videoRef}
         muted
         loop
         playsInline
-        preload="metadata"
-        poster={poster}
+        // Só o vídeo do topo baixa os dados de início; os outros baixam quando forem tocar (economiza banda no carregamento).
+        preload={preload ? "metadata" : "none"}
         aria-hidden="true"
         tabIndex={-1}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
-        className="absolute inset-0 size-full object-cover"
+        onLoadedData={() => setHasFrame(true)}
+        data-ready={hasFrame}
+        className="absolute inset-0 size-full object-cover opacity-0 data-[ready=true]:opacity-100"
       >
         <source src={webm} type='video/webm; codecs="vp9"' />
         <source src={mp4} type="video/mp4" />

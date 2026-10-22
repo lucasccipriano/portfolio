@@ -227,3 +227,19 @@
     translate: none;
   }
 }
+
+/* ---------- Entrada do topo da página (sem JavaScript) ----------
+   O que aparece logo ao abrir (título, subtítulo, carrossel/vídeo do topo) usa o mesmo fade,
+   mas em CSS puro: começa na primeira pintura, sem esperar o JS. Assim o navegador mostra o
+   maior elemento da tela cedo (LCP). Na troca de idioma o fade não se repete (ver startInstantSwap). */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-intro {
+    animation: reveal-intro 0.8s cubic-bezier(0.35, 0, 0, 1) var(--reveal-delay, 0ms) both;
+  }
+}
+@keyframes reveal-intro {
+  from {
+    opacity: 0;
+    translate: 0 30px;
+  }
+}

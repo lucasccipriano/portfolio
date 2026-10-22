@@ -42,8 +42,8 @@ function TestimonialCard({ item, locale, dict }: { item: Testimonial; locale: Lo
             width={112}
             height={112}
             sizes="56px"
-            // Foto pequena: serve o arquivo original, sem recompressão (que borra ainda mais).
-            unoptimized
+            // Otimizada pelo Next (AVIF/WebP no tamanho exibido, 1x/2x); qualidade 90 para o rosto não borrar.
+            quality={90}
             className="size-14 shrink-0 rounded-media object-cover"
           />
         )}
