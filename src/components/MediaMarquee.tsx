@@ -297,9 +297,12 @@ export function MediaMarquee({
               draggable={false}
               className="size-full object-cover"
               style={{ objectPosition: item.position, transform: item.scale ? `scale(${item.scale})` : undefined }}
-              loading={config.eagerFirst && !copy && index === 0 ? "eager" : "lazy"}
-              fetchPriority={config.eagerFirst && !copy && index === 0 ? "high" : undefined}
-              placeholder={(config.eagerFirst && !copy && index === 0) || !item.image.blurDataURL ? "empty" : "blur"}
+              // Os 2 primeiros cards aparecem logo ao abrir (no celular o 2º é o maior elemento da tela, o LCP):
+              // carregam já, com prioridade e pré-carregados no <head>.
+              loading={config.eagerFirst && !copy && index < 2 ? "eager" : "lazy"}
+              fetchPriority={config.eagerFirst && !copy && index < 2 ? "high" : undefined}
+              preload={config.eagerFirst && !copy && index < 2}
+              placeholder={(config.eagerFirst && !copy && index < 2) || !item.image.blurDataURL ? "empty" : "blur"}
             />
             {!copy && <span className="sr-only">{enlargeLabel}</span>}
           </button>
