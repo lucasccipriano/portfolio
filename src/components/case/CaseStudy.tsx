@@ -289,8 +289,10 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
             {c.heuristics.steps.map((step, index) => (
               <li
                 key={step.title}
-                // Só o primeiro card entra com fade; os outros já chegam cobrindo o anterior.
-                data-reveal={index === 0 ? "" : undefined}
+                // Desktop: só o primeiro card entra com fade (os outros chegam cobrindo o anterior).
+                // Celular (sem empilhar): todos entram com fade — ver stackRevealClass.
+                data-reveal=""
+                data-stack-reveal={index === 0 ? undefined : ""}
                 // content-start: a altura extra do card (igualada pela StackList) fica no fim, sem esticar a linha.
                 className={`${stackItemClass} grid content-start gap-8 lg:grid-cols-[minmax(0,33.25rem)_minmax(0,45.6875rem)] lg:justify-between`}
               >
@@ -329,7 +331,7 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
             <ul className="grid gap-x-16 gap-y-10 sm:grid-cols-2">
               {c.heuristics.others.map((item) => (
                 <li key={item.title} className="flex flex-col gap-4">
-                  <p className="border-b border-border pb-4 text-body-xl font-medium text-black">{item.title}</p>
+                  <p className="text-body-xl font-medium text-black">{item.title}</p>
                   {item.text && <p className="text-body-lg leading-[1.45] text-black">{item.text}</p>}
                 </li>
               ))}
@@ -418,8 +420,8 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
           <p data-reveal style={revealDelay(80)} className={`${bodyXl} mt-6`}>{c.finalComponents.intro}</p>
           <StackList as="ul" className="mt-14 flex flex-col gap-12">
             {c.finalComponents.items.map((item, index) => (
-              // Só o primeiro card entra com fade; os outros já chegam cobrindo o anterior.
-              <li key={item.title} data-reveal={index === 0 ? "" : undefined} className={`${stackItemClass} flex flex-col gap-6`}>
+              // Desktop: só o primeiro card entra com fade; no celular (sem empilhar) todos entram.
+              <li key={item.title} data-reveal="" data-stack-reveal={index === 0 ? undefined : ""} className={`${stackItemClass} flex flex-col gap-6`}>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-body-xl font-medium tracking-[-0.03em] text-text-primary">{item.title}</h3>
                   {item.text.map((line) => (
@@ -470,7 +472,7 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
             </div>
           </div>
 
-          <ul className="mt-20 grid gap-10 md:grid-cols-2">
+          <ul className="mt-8 grid gap-10 md:mt-20 md:grid-cols-2">
             {c.usability.screens.map((screen, index) => (
               <li key={screen.title} data-reveal style={revealDelay(120 * index)} className="flex flex-col gap-6">
                 <h4 className="text-body-xl font-medium tracking-[-0.03em] text-text-primary">{screen.title}</h4>

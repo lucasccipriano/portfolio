@@ -214,6 +214,13 @@
     animation: reveal-fallback 0.6s ease-out 4s forwards;
   }
 }
+/* Cards empilháveis (StackList): no desktop só o primeiro tem fade; os outros chegam cobrindo o anterior. */
+@media (min-width: 64rem) {
+  [data-reveal][data-stack-reveal] {
+    opacity: 1;
+    translate: none;
+  }
+}
 @keyframes reveal-fallback {
   to {
     opacity: 1;

@@ -78,6 +78,7 @@ const en = {
   project: {
     backToWork: "Back to work",
     backToHome: "Back to home",
+    back: "Back",
     escHint: "Press Esc to go back to the home page",
     summaryTitle: "Summary",
     company: "Company",
@@ -176,6 +177,7 @@ const ptBr: Dictionary = {
   project: {
     backToWork: "Voltar aos trabalhos",
     backToHome: "Voltar para a home",
+    back: "Voltar",
     escHint: "Pressione Esc para voltar à página inicial",
     summaryTitle: "Resumo",
     company: "Empresa",

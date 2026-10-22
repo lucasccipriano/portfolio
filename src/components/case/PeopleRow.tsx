@@ -28,11 +28,13 @@ export function PeopleRow({ total, count, tone }: Props) {
     setState("idle");
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) return;
+        // Rolagem rápida no celular pode pular a fileira inteira entre dois quadros (nunca "intersecta"):
+        // se ela já passou para cima da tela, colore também.
+        if (!entry.isIntersecting && entry.boundingClientRect.top > 0) return;
         setState("active");
         observer.disconnect();
       },
-      { rootMargin: "0px 0px -15% 0px" },
+      { rootMargin: "0px 0px -10% 0px" },
     );
     observer.observe(row);
     return () => observer.disconnect();

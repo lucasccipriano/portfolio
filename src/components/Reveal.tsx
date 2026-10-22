@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { endInstantSwap, instantSwapLangValue, isRevealed, revealActive, revealElement } from "@/lib/reveal";
+import { byDocumentOrder, endInstantSwap, instantSwapLangValue, isRevealed, revealActive, revealElement } from "@/lib/reveal";
 
 /**
  * Efeito de entrada dos conteúdos (como nos sites Framer de referência):
@@ -33,20 +33,26 @@ export function Reveal() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting || entry.boundingClientRect.bottom < 0) {
-            revealElement(entry.target, !entry.isIntersecting);
-            observer.unobserve(entry.target);
-          }
+        // Entradas que chegam juntas (scroll rápido) aparecem na ordem da página.
+        const ready = entries
+          .filter((entry) => entry.isIntersecting || entry.boundingClientRect.bottom < 0)
+          .sort((a, b) => byDocumentOrder(a.target, b.target));
+        for (const entry of ready) {
+          revealElement(entry.target, !entry.isIntersecting);
+          observer.unobserve(entry.target);
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0 },
+      // Começa assim que o elemento entra na tela (sem esperar), para não sobrar faixa em branco no fim da tela.
+      { rootMargin: "0px", threshold: 0 },
     );
 
+    // Desktop: cards empilháveis (data-stack-reveal) não têm fade; só no celular, onde não empilham.
+    const desktop = window.matchMedia("(min-width: 64rem)");
     const scan = () => {
       const instant = instantSwapLangValue() !== null;
       document.querySelectorAll("[data-reveal]").forEach((el) => {
         if (isRevealed(el)) return;
+        if (desktop.matches && el.hasAttribute("data-stack-reveal")) return;
         if (instant && el.getBoundingClientRect().top < window.innerHeight) revealElement(el, true);
         else observer.observe(el);
       });
@@ -58,11 +64,14 @@ export function Reveal() {
     // Conteúdo que aparece depois (troca de página, troca de idioma, streaming) também entra no efeito.
     const mutations = new MutationObserver(scan);
     mutations.observe(document.body, { childList: true, subtree: true });
+    // Ao passar de desktop para celular, os cards empilháveis passam a ter fade.
+    desktop.addEventListener("change", scan);
 
     return () => {
       window.clearTimeout(timer);
       observer.disconnect();
       mutations.disconnect();
+      desktop.removeEventListener("change", scan);
     };
   }, [pathname]);
 

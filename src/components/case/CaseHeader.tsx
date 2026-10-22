@@ -33,10 +33,10 @@ export function CaseHeader({ locale, dict, caseName }: Props) {
             className="group inline-flex min-h-6 items-center gap-3 rounded-sm text-body font-medium leading-normal tracking-wide text-text-primary"
           >
             <span className="whitespace-nowrap underline-offset-4 decoration-1 group-hover:underline">
-              {/* No celular o rótulo encurta para caber ao lado dos idiomas. */}
+              {/* No celular o rótulo encurta ("Voltar" / "Back") para caber ao lado dos idiomas. */}
               <span className="hidden sm:inline">{dict.project.backToHome}</span>
               <span className="sm:hidden" aria-hidden="true">
-                Home
+                {dict.project.back}
               </span>
               <span className="sr-only sm:hidden">{dict.project.backToHome}</span>
             </span>

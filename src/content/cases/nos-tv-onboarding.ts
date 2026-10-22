@@ -610,7 +610,44 @@ const en: CaseContent = {
       "After brainstorming, the wireframes of the onboarding components were presented to the team, who voted on which would best fit a TV experience.",
     teamTitle: "The team included",
     team: ["Visual Designer", "Design Manager", "Product Designers (TV, Android and Apple apps, streaming and web)", "UX Research"],
-    board: { ...pt.critique.board, title: "What can’t be missing from onboarding?" },
+    board: {
+      title: "What can’t be missing from onboarding?",
+      lang: "en",
+      groups: [
+        { title: "Skip the tutorial", color: "yellow", notes: ["Be skippable", "Option to skip the onboarding"] },
+        {
+          title: "Contextual",
+          color: "slate",
+          notes: [
+            "Be contextual (2x)",
+            "Context matters: tips at the right moment",
+            "Guidance and introduction: start by explaining what comes next or use wording that is common for this kind of process",
+          ],
+        },
+        {
+          title: "Contextual/Clarity",
+          color: "gray",
+          notes: ["Include a demo and highlights of the main focus areas", "Animated video when the feature is complex"],
+        },
+        {
+          title: "Clarity",
+          color: "salmon",
+          notes: ["Be clear", "Be clear and don’t show too many choices", "Clear and short, but with a “link” to something more detailed"],
+        },
+        {
+          title: "Interaction",
+          color: "orange",
+          notes: [
+            "Learn the main features",
+            "Feature tips",
+            "No login required",
+            "Include a flow that lets users try the onboarding context",
+            "Onboarding = Tutorials",
+          ],
+        },
+        { title: "Other", color: "green", notes: ["Be recoverable", { text: "Multichannel", color: "pink" }] },
+      ],
+    },
     examples: [
       { ...pt.critique.examples[0], text: "This component can be used for a single contextual tip or a tutorial about features and flows.", image: { ...pt.critique.examples[0].image, alt: "Walkthrough component wireframe: card with step, title, text, image area and button." } },
       { ...pt.critique.examples[1], title: "Walkthrough with Now & Next", text: "We reused a component already in the interface, Now & Next (which shows a channel’s schedule), for the tutorial in different flows.", image: { ...pt.critique.examples[1].image, alt: "Walkthrough wireframe over the Now & Next component, with a remote illustration highlighting buttons." } },
