@@ -53,8 +53,8 @@ export function StackList({ as: Tag = "ol", className = "", lead, children }: Pr
 
       const height = Math.max(...cards.map((card) => card.offsetHeight));
       const leadHeight = leadEl?.offsetHeight ?? 0;
-      const headerHeight = document.querySelector("header.sticky")?.getBoundingClientRect().height ?? 0;
-      // Espaço visível abaixo do header fixo.
+      // O header some ao rolar para baixo (quando os cards se empilham): o espaço visível é a tela toda.
+      const headerHeight = 0;
       const available = window.innerHeight - headerHeight;
       const withLead = leadEl !== null && leadHeight + height <= available;
       const block = (withLead ? leadHeight : 0) + height;

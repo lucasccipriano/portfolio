@@ -37,7 +37,8 @@ const pt: CaseContent = {
   },
   summary: [
     "A UMA TV é o principal produto de TV da NOS, no qual atuei por mais de 2 anos como Product Designer Sênior. Como parte da evolução para uma experiência multiplataforma (STB, Apple TV, Android TV), liderei o processo do onboarding para o produto.",
-    "A primeira versão não apresentou bons resultados nos testes com usuários, o que nos levou a uma abordagem mais simples: tooltips contextuais que introduzem as funcionalidades ao longo da jornada. A solução foi validada em uma rodada de testes de usabilidade com cerca de 9 usuários e lançada com a nova versão da TV para cerca de 1 milhão de assinantes.",
+    "A primeira versão não apresentou bons resultados nos testes com usuários e, com prazo apertado para a entrega, decidimos adotar uma abordagem mais simples: tooltips contextuais que introduzem as funcionalidades ao longo da jornada.",
+    "A solução foi validada em uma rodada de testes de usabilidade com cerca de 9 usuários e lançada com a nova versão da TV para cerca de 1 milhão de assinantes.",
   ],
   team: [
     { role: "Design Manager", name: "Nelson Delicado" },
@@ -423,6 +424,24 @@ const pt: CaseContent = {
       },
     ],
   },
+  reflections: {
+    title: "Reflexões finais",
+    paragraphs: [
+      "Com o lançamento da nova TV muito próximo, precisamos priorizar um onboarding mais simples, que pudesse ser validado e entregue a tempo. Não era a visão completa que tínhamos desenhado, mas foi a escolha certa para não atrasar o lançamento.",
+      "O projeto também mudou minha forma de enxergar o onboarding: menos como um tour de boas-vindas e mais como algo distribuído ao longo da jornada, que acompanha o usuário no momento em que ele precisa.",
+    ],
+    differentTitle: "O que eu faria diferente",
+    different: [
+      {
+        title: "Onboarding personalizado por persona",
+        text: "Com o prazo apertado, tive que escolher entre estender o desenvolvimento ou lançar a TV com uma experiência única de onboarding para todos os usuários. Escolhi lançar. Hoje, eu deixaria a personalização documentada como próxima etapa do roadmap para que ela não se perdesse depois do lançamento.",
+      },
+      {
+        title: "Protótipos mais próximos da experiência real com IA",
+        text: "Os protótipos foram feitos no Figma, que não reproduz bem a navegação por comando numa TV. Isso tomou muito tempo de prototipagem e gerou atritos nos testes que não eram necessariamente do design. Hoje, eu usaria IA para prototipar em código, com navegação real por comando, e testaria algo bem mais próximo do produto final.",
+      },
+    ],
+  },
 };
 
 const en: CaseContent = {
@@ -443,7 +462,8 @@ const en: CaseContent = {
   },
   summary: [
     "UMA TV is NOS’s main TV product, where I worked for more than 2 years as a Senior Product Designer. As part of its evolution into a multi-platform experience (STB, Apple TV, Android TV), I led the onboarding process for the product.",
-    "The first version didn’t perform well in user tests, which led us to a simpler approach: contextual tooltips that introduce features along the journey. The solution was validated in a round of usability tests with around 9 users and shipped with the new TV version to around 1 million subscribers.",
+    "The first version didn’t perform well in user tests and, with a tight delivery deadline, we decided to take a simpler approach: contextual tooltips that introduce features along the journey.",
+    "The solution was validated in a round of usability tests with around 9 users and shipped with the new TV version to around 1 million subscribers.",
   ],
   team: pt.team,
   timeline: "2024 → 2 months",
@@ -701,6 +721,24 @@ const en: CaseContent = {
           ...pt.usability.screens[1].image,
           alt: "Video of the Doctor Who page where contextual tooltips appear on the buttons, such as “Watch from the start” and “Watch later”.",
         },
+      },
+    ],
+  },
+  reflections: {
+    title: "Final reflections",
+    paragraphs: [
+      "With the new TV launch very close, we had to prioritise a simpler onboarding that could be validated and delivered on time. It wasn’t the full vision we had designed, but it was the right call so the launch wasn’t delayed.",
+      "The project also changed how I see onboarding: less as a welcome tour and more as something spread across the journey, supporting users at the moment they need it.",
+    ],
+    differentTitle: "What I would do differently",
+    different: [
+      {
+        title: "Onboarding personalised by persona",
+        text: "With a tight deadline, I had to choose between extending development or launching the TV with a single onboarding experience for every user. I chose to launch. Today, I would document personalisation as the next step on the roadmap so it wouldn’t get lost after the launch.",
+      },
+      {
+        title: "Prototypes closer to the real experience, using AI",
+        text: "The prototypes were built in Figma, which doesn’t reproduce remote-control navigation on a TV well. That took a lot of prototyping time and caused friction in the tests that wasn’t really about the design. Today, I would use AI to prototype in code, with real remote navigation, and test something much closer to the final product.",
       },
     ],
   },

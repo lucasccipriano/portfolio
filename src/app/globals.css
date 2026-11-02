@@ -144,12 +144,13 @@
    ------------------------------------------------------------------ */
 @layer base {
   :root {
-    --header-h: 4.5rem; /* 72px, header fixo */
+    --header-h: 4.5rem; /* 72px, altura do header */
   }
 
   html {
     scroll-behavior: smooth;
     /* header fixo: âncoras e foco param abaixo dele (WCAG 2.4.11) */
+    /* o header pode reaparecer ao rolar para cima: âncoras e foco param abaixo dele (WCAG 2.4.11) */
     scroll-padding-top: calc(var(--header-h) + 1.5rem);
     -webkit-text-size-adjust: 100%;
   }

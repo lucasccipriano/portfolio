@@ -130,6 +130,11 @@ export type CaseContent = {
     screens: { title: string; image: CaseImage }[];
   };
 
-  /** Reflexões finais. Só aparece quando tiver texto. */
-  reflections?: { title: string; paragraphs: string[] };
+  /** Reflexões finais + "O que eu faria diferente" (Figma: título à esquerda, texto à direita). */
+  reflections?: {
+    title: string;
+    paragraphs: string[];
+    differentTitle: string;
+    different: { title: string; text: string }[];
+  };
 };

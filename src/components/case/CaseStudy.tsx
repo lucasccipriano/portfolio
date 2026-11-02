@@ -25,6 +25,8 @@ const text20 = "text-[1.125rem] leading-[1.6875rem] lg:text-[1.25rem] lg:leading
 const text24 = "text-[1.25rem] leading-[1.625rem] lg:text-[1.5rem] lg:leading-[1.95rem]"; // 24/31.2
 const bodyXl = `${text20} font-normal text-black`;
 /** Duas colunas do Figma: título à esquerda, conteúdo com 644px à direita. */
+/** Reflexões finais (Figma): título à esquerda, texto com 755px à direita. */
+const reflectionCols = "grid gap-x-[clamp(2rem,6vw,6.375rem)] gap-y-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,47.1875rem)]";
 const twoCols = "grid gap-x-[clamp(2rem,6vw,6.375rem)] gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,40.25rem)]";
 
 function Section({ id, children, last = false }: { id: string; children: ReactNode; last?: boolean }) {
@@ -434,7 +436,7 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
                 </div>
                 {/* Largura total do grid quando cabe; em telas baixas a imagem (16:9) encolhe para o card inteiro
                     (título + texto ≈ 10rem com os respiros) caber centralizado abaixo do header no empilhamento. */}
-                {fig(item.image, { className: "rounded-media lg:max-w-[calc((100svh-var(--header-h)-10rem)*16/9)]" })}
+                {fig(item.image, { className: "rounded-media lg:max-w-[calc((100svh-10rem)*16/9)]" })}
               </li>
             ))}
           </StackList>
@@ -499,15 +501,37 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
 
         {c.reflections && c.reflections.paragraphs.length > 0 && (
           <Section id="reflections" last>
-            <h2 data-reveal id="reflections-title" className={headingClass}>
-              {c.reflections.title}
-            </h2>
-            <div data-reveal style={revealDelay(80)} className="mt-6 flex max-w-[54rem] flex-col gap-6">
-              {c.reflections.paragraphs.map((paragraph) => (
-                <p key={paragraph} className={bodyXl}>
-                  {paragraph}
-                </p>
-              ))}
+            {/* Figma: duas linhas (título à esquerda, texto em 755px à direita), 104px entre elas. */}
+            <div className="flex flex-col gap-[clamp(3.5rem,2rem+5vw,6.5rem)]">
+              <div className={reflectionCols}>
+                <h2 data-reveal id="reflections-title" className={`${headingClass} leading-[1.25]`}>
+                  {c.reflections.title}
+                </h2>
+                <div data-reveal style={revealDelay(80)} className="flex flex-col gap-10">
+                  {c.reflections.paragraphs.map((paragraph) => (
+                    <p key={paragraph} className="text-body-xl leading-[1.3] text-black">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+
+              <section aria-labelledby="different-title" className={reflectionCols}>
+                <h2 data-reveal id="different-title" className={`${headingClass} leading-[1.25]`}>
+                  {c.reflections.differentTitle}
+                </h2>
+                <ol className="flex flex-col gap-10">
+                  {c.reflections.different.map((item, index) => (
+                    <li key={item.title} data-reveal style={revealDelay(80 * index)} className="flex flex-col gap-4">
+                      <h3 className={`${text24} font-medium text-black`}>
+                        <span aria-hidden="true">{pad2(index + 1)}. </span>
+                        {item.title}
+                      </h3>
+                      <p className="text-body-xl leading-[1.3] text-black">{item.text}</p>
+                    </li>
+                  ))}
+                </ol>
+              </section>
             </div>
           </Section>
         )}

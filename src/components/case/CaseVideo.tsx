@@ -66,6 +66,13 @@ export function CaseVideo({
     if (resumeAfterExpand.current) videoRef.current?.play().catch(() => setPlaying(false));
   };
 
+  // O vídeo do topo pode carregar o 1º quadro antes de o React ligar o onLoadedData (o evento se perde
+  // e o vídeo ficaria invisível atrás da capa, tocando). Confere o estado atual ao montar.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) setHasFrame(true);
+  }, []);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -151,6 +158,7 @@ export function CaseVideo({
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onLoadedData={() => setHasFrame(true)}
+        onPlaying={() => setHasFrame(true)}
         data-ready={hasFrame}
         className="absolute inset-0 size-full object-cover opacity-0 data-[ready=true]:opacity-100"
       >

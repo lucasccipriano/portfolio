@@ -3,6 +3,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { profile } from "@/content/profile";
 import { LanguageSwitcher } from "../LanguageSwitcher";
 import { EscapeToHome } from "./EscapeToHome";
+import { ScrollHeader } from "../ScrollHeader";
 
 type Props = { locale: Locale; dict: Dictionary; caseName: string };
 
@@ -11,7 +12,7 @@ export function CaseHeader({ locale, dict, caseName }: Props) {
   const home = `/${locale}`;
 
   return (
-    <header className="sticky top-0 z-40 flex h-(--header-h) items-center bg-white/70 backdrop-blur-xl backdrop-saturate-150 supports-[not(backdrop-filter:blur(1px))]:bg-white/95">
+    <ScrollHeader className="z-40 flex h-(--header-h) items-center bg-white">
       <div className="container-page flex items-center justify-between gap-6">
         {/* Nome acessível = texto visível (WCAG 2.5.3): a vírgula escondida só separa as duas linhas na leitura. */}
         <a href={home} className="flex flex-col">
@@ -50,6 +51,6 @@ export function CaseHeader({ locale, dict, caseName }: Props) {
         </div>
       </div>
       <EscapeToHome href={home} />
-    </header>
+    </ScrollHeader>
   );
 }

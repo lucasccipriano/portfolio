@@ -6,6 +6,7 @@ import { ArrowUpRightIcon } from "./Icons";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { LisbonClock } from "./LisbonClock";
 import { MenuDisclosure } from "./MenuDisclosure";
+import { ScrollHeader } from "./ScrollHeader";
 
 type Props = { locale: Locale; dict: Dictionary; isHome?: boolean };
 
@@ -20,7 +21,7 @@ export function SiteHeader({ locale, dict, isHome = false }: Props) {
   const anchor = (id: string) => (isHome ? `#${id}` : `${home}#${id}`);
 
   return (
-    <header className="sticky top-0 z-40 flex h-(--header-h) items-center bg-white/70 backdrop-blur-xl backdrop-saturate-150 supports-[not(backdrop-filter:blur(1px))]:bg-white/95">
+    <ScrollHeader className="z-40 flex h-(--header-h) items-center bg-white">
       <div className="container-page flex items-center justify-between">
         {/* Nome acessível = texto visível (WCAG 2.5.3): a vírgula escondida só separa as duas linhas na leitura. */}
         <a href={home} className="flex flex-col">
@@ -86,6 +87,6 @@ export function SiteHeader({ locale, dict, isHome = false }: Props) {
           </nav>
         </MenuDisclosure>
       </div>
-    </header>
+    </ScrollHeader>
   );
 }
