@@ -278,7 +278,7 @@ const pt: CaseContent = {
       },
       {
         title: "Live TV",
-        text: "Player que muda as funcionalidades conforme o tipo de conteúdo: em direto, VOD, esportes etc.",
+        text: "Player que muda as funcionalidades conforme o tipo de conteúdo.",
         image: { file: "flow-live-tv", alt: "Player de TV ao vivo exibindo Doctor Who, com a barra de progresso e o botão “Programação do canal”." },
       },
       {
@@ -668,7 +668,7 @@ const en: CaseContent = {
     title: "Main areas covered by the onboarding",
     items: [
       { ...pt.flow.items[0], text: "The TV’s main area, bringing together personalised content, offers and continue watching.", image: { ...pt.flow.items[0].image, alt: "New UMA home page with “On TV now” and the “1-month offer” campaign." } },
-      { ...pt.flow.items[1], text: "A player whose features change with the type of content: live, VOD, sports and more.", image: { ...pt.flow.items[1].image, alt: "Live TV player showing Doctor Who, with the progress bar and the “Channel schedule” button." } },
+      { ...pt.flow.items[1], text: "A player whose features change with the type of content.", image: { ...pt.flow.items[1].image, alt: "Live TV player showing Doctor Who, with the progress bar and the “Channel schedule” button." } },
       { ...pt.flow.items[2], text: "Features and information about what’s being watched.", image: { ...pt.flow.items[2].image, alt: "Doctor Who details page with synopsis, actions and season list." } },
       { ...pt.flow.items[3], text: "Channel programme guide, focused on what’s on now, with category filters.", image: { ...pt.flow.items[3].image, alt: "Programme guide with channels, weekdays and shows on air." } },
       { ...pt.flow.items[4], title: "Search", text: "Search for content, cast, apps and TV channels.", image: { ...pt.flow.items[4].image, alt: "Search screen with an on-screen keyboard and a tip to search by voice with the remote." } },
