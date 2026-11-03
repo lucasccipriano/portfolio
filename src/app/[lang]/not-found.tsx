@@ -1,12 +1,12 @@
 import { lang } from "next/root-params";
-import { hasLocale, defaultLocale } from "@/i18n/config";
+import { isActiveLocale, fallbackLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ClosingFooter } from "@/components/ClosingFooter";
 
 export default async function NotFound() {
   const value = await lang();
-  const locale = hasLocale(value) ? value : defaultLocale;
+  const locale = isActiveLocale(value) ? value : fallbackLocale;
   const dict = getDictionary(locale);
 
   return (

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { defaultLocale, hasLocale, LOCALE_COOKIE, localeForCountry, locales, type Locale } from "@/i18n/config";
+import { activeLocales, fallbackLocale, isActiveLocale, LOCALE_COOKIE, localeForCountry, locales, type Locale } from "@/i18n/config";
 
 /**
  * Escolhe o idioma de quem chega sem idioma na URL (ex.: "/" ou "/work/x").
@@ -16,23 +16,31 @@ import { defaultLocale, hasLocale, LOCALE_COOKIE, localeForCountry, locales, typ
  */
 function pickLocale(request: NextRequest): Locale {
   const saved = request.cookies.get(LOCALE_COOKIE)?.value;
-  if (saved && hasLocale(saved)) return saved;
+  if (saved && isActiveLocale(saved)) return saved;
 
   const country = request.headers.get("x-vercel-ip-country") ?? request.headers.get("cf-ipcountry");
   const byCountry = localeForCountry(country);
   if (byCountry) return byCountry;
 
   const acceptLanguage = request.headers.get("accept-language")?.toLowerCase() ?? "";
-  if (/(^|,)\s*pt-br\b/.test(acceptLanguage)) return "pt-br";
+  if (/(^|,)\s*pt-br\b/.test(acceptLanguage) && isActiveLocale("pt-br")) return "pt-br";
 
-  return defaultLocale;
+  return fallbackLocale;
 }
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const hasLocalePrefix = locales.some((locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`));
-  if (hasLocalePrefix) return;
+  const prefix = locales.find((locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`));
+  if (prefix && activeLocales.includes(prefix)) return;
+
+  // Idioma oculto (ex.: inglês desligado em ENGLISH_ENABLED): leva para a mesma página no idioma publicado.
+  // 307 (temporário), porque o idioma volta a ser publicado depois.
+  if (prefix) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${fallbackLocale}${pathname.slice(prefix.length + 1)}`;
+    return NextResponse.redirect(url, 307);
+  }
 
   const url = request.nextUrl.clone();
   url.pathname = `/${pickLocale(request)}${pathname === "/" ? "" : pathname}`;

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LOCALE_COOKIE, locales, type Locale } from "@/i18n/config";
+import { activeLocales, LOCALE_COOKIE, type Locale } from "@/i18n/config";
 import { startInstantSwap, withoutLocale } from "@/lib/reveal";
 
 type Props = { current: Locale; label: string };
@@ -19,11 +19,13 @@ const hrefLang: Record<Locale, string> = { "pt-br": "pt-BR", en: "en" };
 export function LanguageSwitcher({ current, label }: Props) {
   const pathname = usePathname() ?? `/${current}`;
   const rest = withoutLocale(pathname);
+  // Só um idioma publicado (ver ENGLISH_ENABLED): não há o que trocar.
+  if (activeLocales.length < 2) return null;
 
   return (
     <nav aria-label={label}>
       <ul className="flex items-center gap-1 text-body font-medium tracking-wide">
-        {locales.map((locale, index) => {
+        {activeLocales.map((locale, index) => {
           const isCurrent = locale === current;
           return (
             <li key={locale} className="flex items-center gap-1">

@@ -7,6 +7,12 @@ type Props = {
   className?: string;
   /** Introdução que fica parada acima dos cards enquanto eles se empilham (só no desktop). */
   lead?: ReactNode;
+  /**
+   * Corta o espaço em branco que sobra no fim do último card (ele ganha a altura do mais alto para cobrir os
+   * anteriores): o conteúdo seguinte sobe até o fim real do último card. O elemento seguinte precisa de
+   * `relative z-10 bg-white` no desktop, para ficar por cima da sobra (e do card mais alto, que fica atrás).
+   */
+  trimEnd?: boolean;
   children: ReactNode;
 };
 
@@ -23,7 +29,7 @@ type Props = {
  *
  * Os filhos devem ser <li> com `stackItemClass` (src/lib/stack.ts).
  */
-export function StackList({ as: Tag = "ol", className = "", lead, children }: Props) {
+export function StackList({ as: Tag = "ol", className = "", lead, trimEnd = false, children }: Props) {
   const leadRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLOListElement & HTMLUListElement>(null);
   const [pinLead, setPinLead] = useState(false);
@@ -45,13 +51,15 @@ export function StackList({ as: Tag = "ol", className = "", lead, children }: Pr
         leadEl.style.marginBottom = "";
       }
       list.style.marginTop = "";
+      list.style.marginBottom = "";
       const stacking = cards.length > 1 && getComputedStyle(cards[0]).position === "sticky";
       if (!stacking) {
         setPinLead(false);
         return;
       }
 
-      const height = Math.max(...cards.map((card) => card.offsetHeight));
+      const naturalHeights = cards.map((card) => card.offsetHeight);
+      const height = Math.max(...naturalHeights);
       const leadHeight = leadEl?.offsetHeight ?? 0;
       // O header some ao rolar para baixo (quando os cards se empilham): o espaço visível é a tela toda.
       const headerHeight = 0;
@@ -75,6 +83,7 @@ export function StackList({ as: Tag = "ol", className = "", lead, children }: Pr
         card.style.minHeight = `${height}px`;
         card.style.top = `${cardTop}px`;
       });
+      if (trimEnd) list.style.marginBottom = `${naturalHeights[naturalHeights.length - 1] - height}px`;
     };
 
     measure();
@@ -87,7 +96,7 @@ export function StackList({ as: Tag = "ol", className = "", lead, children }: Pr
       resizeObserver.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, []);
+  }, [trimEnd]);
 
   return (
     <div>

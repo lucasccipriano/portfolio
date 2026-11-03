@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { hasLocale, htmlLang, locales } from "@/i18n/config";
+import { hasLocale, htmlLang, activeLocales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getProject, projects } from "@/content/projects";
 import { profile } from "@/content/profile";
@@ -22,7 +22,7 @@ import { getCase } from "@/content/cases";
 export const instant = false;
 
 export async function generateStaticParams() {
-  return locales.flatMap((lang) => projects.map((p) => ({ lang, slug: p.slug })));
+  return activeLocales.flatMap((lang) => projects.map((p) => ({ lang, slug: p.slug })));
 }
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/work/[slug]">): Promise<Metadata> {

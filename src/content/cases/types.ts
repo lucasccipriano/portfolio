@@ -98,7 +98,8 @@ export type CaseContent = {
     intro: string;
     steps: { title: string; paragraphs: string[]; bullets: { lead?: string; text: string }[]; image: CaseImage }[];
     othersTitle: string;
-    others: NumberedItem[];
+    /** `href`: o título vira link externo (ex.: artigo de referência). */
+    others: (NumberedItem & { href?: string })[];
   };
 
   flow: { eyebrow: string; title: string; items: { title: string; text: string; image: CaseImage }[] };
@@ -137,4 +138,7 @@ export type CaseContent = {
     differentTitle: string;
     different: { title: string; text: string }[];
   };
+
+  /** Imagem de encerramento, de ponta a ponta, no fim do case (Figma "bg-final"). */
+  closingImage?: CaseImage;
 };

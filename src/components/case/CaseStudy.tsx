@@ -7,6 +7,7 @@ import { BeforeAfter } from "./BeforeAfter";
 import { CaseFigure } from "./CaseFigure";
 import { CaseVideo } from "./CaseVideo";
 import { StackList } from "./StackList";
+import { ExternalLink } from "../ExternalLink";
 import { revealDelay } from "@/lib/reveal";
 import { stackItemClass } from "@/lib/stack";
 import { PeopleRow } from "./PeopleRow";
@@ -282,9 +283,10 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
         {/* ---------- Heurísticas ---------- */}
         <Section id="heuristics">
           <StackList
-            className="flex flex-col gap-14"
+            className="flex flex-col gap-14 lg:gap-10"
+            trimEnd
             lead={
-              <div className="max-w-[75rem] pb-14">
+              <div className="max-w-[75rem] pb-14 lg:pb-10">
                 <SectionHeader id="heuristics" eyebrow={c.heuristics.eyebrow} title={c.heuristics.title} />
                 <p data-reveal style={revealDelay(80)} className={`${bodyXl} mt-6`}>{c.heuristics.intro}</p>
               </div>
@@ -330,12 +332,22 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
             ))}
           </StackList>
 
-          <div data-reveal className="mt-14 grid gap-8 pt-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,61.0625rem)]">
+          {/* Desktop: 80px entre o fim do último card (imagem) e "Outros pontos" (64px + 16px de padding).
+              relative z-10 bg-white: fica por cima da sobra do último card (ver StackList trimEnd). */}
+          <div data-reveal className="mt-14 grid gap-8 pt-4 lg:relative lg:z-10 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,61.0625rem)] lg:bg-white">
             <h3 className="text-body-xl font-medium leading-[1.2] tracking-[-0.03em] text-[#333]">{c.heuristics.othersTitle}</h3>
             <ul className="grid gap-x-16 gap-y-10 sm:grid-cols-2">
               {c.heuristics.others.map((item) => (
                 <li key={item.title} className="flex flex-col gap-4">
-                  <p className="text-body-xl font-medium text-black">{item.title}</p>
+                  <p className="text-body-xl font-medium text-black">
+                    {item.href ? (
+                      <ExternalLink href={item.href} newTabLabel={c.labels.opensInNewTab} className="underline decoration-1 underline-offset-4 hover:decoration-2">
+                        {item.title}
+                      </ExternalLink>
+                    ) : (
+                      item.title
+                    )}
+                  </p>
                   {item.text && <p className="text-body-lg leading-[1.45] text-black">{item.text}</p>}
                 </li>
               ))}
@@ -422,7 +434,7 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
         <Section id="final">
           <SectionHeader id="final" eyebrow={c.finalComponents.eyebrow} title={c.finalComponents.title} />
           <p data-reveal style={revealDelay(80)} className={`${bodyXl} mt-6`}>{c.finalComponents.intro}</p>
-          <StackList as="ul" className="mt-14 flex flex-col gap-12">
+          <StackList as="ul" className="mt-14 flex flex-col gap-12 lg:mt-10 lg:gap-8">
             {c.finalComponents.items.map((item, index) => (
               // Desktop: só o primeiro card entra com fade; no celular (sem empilhar) todos entram.
               <li key={item.title} data-reveal="" data-stack-reveal={index === 0 ? undefined : ""} className={`${stackItemClass} flex flex-col gap-6`}>
@@ -436,7 +448,20 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
                 </div>
                 {/* Largura total do grid quando cabe; em telas baixas a imagem (16:9) encolhe para o card inteiro
                     (título + texto ≈ 10rem com os respiros) caber centralizado abaixo do header no empilhamento. */}
-                {fig(item.image, { className: "rounded-media lg:max-w-[calc((100svh-10rem)*16/9)]" })}
+                {item.image.video ? (
+                  <CaseVideo
+                    {...item.image.video}
+                    description={item.image.alt}
+                    pauseLabel={c.labels.pauseVideo}
+                    playLabel={c.labels.playVideo}
+                    enlargeLabel={c.labels.enlargeVideo}
+                    closeLabel={c.labels.close}
+                    className="w-full rounded-media lg:max-w-[calc((100svh-10rem)*16/9)]"
+                    sizes="(min-width: 1440px) 1312px, calc(100vw - 2 * var(--spacing-gutter))"
+                  />
+                ) : (
+                  fig(item.image, { className: "rounded-media lg:max-w-[calc((100svh-10rem)*16/9)]" })
+                )}
               </li>
             ))}
           </StackList>
@@ -536,6 +561,9 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
           </Section>
         )}
       </div>
+
+      {/* Imagem de encerramento, de ponta a ponta do layout (Figma "bg-final"). */}
+      {c.closingImage && <div data-reveal>{fig(c.closingImage, { sizes: "100vw" })}</div>}
     </article>
   );
 }

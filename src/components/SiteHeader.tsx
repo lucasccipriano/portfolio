@@ -1,4 +1,4 @@
-import { htmlLang, type Locale } from "@/i18n/config";
+import { activeLocales, htmlLang, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { profile } from "@/content/profile";
 import { EmailMenu } from "./EmailMenu";
@@ -80,9 +80,12 @@ export function SiteHeader({ locale, dict, isHome = false }: Props) {
                   <span className={`label ${itemLabel}`}>{dict.nav.contact}</span>
                 </EmailMenu>
               </li>
-              <li className="py-3 lg:py-0">
-                <LanguageSwitcher current={locale} label={dict.nav.language} />
-              </li>
+              {/* Some junto com o seletor quando só há um idioma publicado (ver ENGLISH_ENABLED). */}
+              {activeLocales.length > 1 && (
+                <li className="py-3 lg:py-0">
+                  <LanguageSwitcher current={locale} label={dict.nav.language} />
+                </li>
+              )}
             </ul>
           </nav>
         </MenuDisclosure>

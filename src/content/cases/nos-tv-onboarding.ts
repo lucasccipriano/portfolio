@@ -11,11 +11,14 @@ import type { CaseContent } from "./types";
  */
 export const caseFolder = "/images/work/nos-tv-onboarding";
 
-/** Vídeos do case em /public/videos/onboarding (WebM + MP4 para Safari + poster). */
+/**
+ * Vídeos do case: o .webm fica em /public/videos/onboarding (versões em inglês terminam em "-en").
+ * O MP4 (para Safari) e a capa (.jpg) são gerados a partir dele em /public/videos/onboarding/gerados, com o mesmo nome.
+ */
 const video = (name: string) => ({
   webm: `/videos/onboarding/${name}.webm`,
-  mp4: `/videos/onboarding/${name}.mp4`,
-  poster: `/videos/onboarding/${name}-poster.jpg`,
+  mp4: `/videos/onboarding/gerados/${name}.mp4`,
+  poster: `/videos/onboarding/gerados/${name}.jpg`,
 });
 const heroVideoFiles = video("onboarding_UMA_fluxo");
 
@@ -58,6 +61,10 @@ const pt: CaseContent = {
   heroImage: {
     file: "hero",
     alt: "Player da nova UMA TV exibindo o filme Tenet no canal TVCine Top, com a dica “Pressione OK para mais opções”.",
+  },
+  closingImage: {
+    file: "bg-final",
+    alt: "Mosaico inclinado de telas da nova UMA TV sobre fundo escuro: página inicial, player, oferta de 1 mês grátis e boas-vindas.",
   },
   coverImage: {
     file: "cover-tv-room",
@@ -238,12 +245,25 @@ const pt: CaseContent = {
       },
     ],
     othersTitle: "Outros pontos",
-    // TODO(Lucas): no Figma os quatro itens têm o mesmo texto provisório; escreva a descrição de cada um.
+    // Ordem em grade de 2 colunas: linha 1 = contínuo | tooltips; linha 2 = touchpoints | custo irrecuperável (Figma).
     others: [
-      { title: "Onboarding contínuo" },
-      { title: "Evitar uso excessivo de tooltips" },
-      { title: "Identificar touchpoints nos fluxos de navegação" },
-      { title: "Princípio de custo irrecuperável" },
+      {
+        title: "Onboarding contínuo",
+        text: "O onboarding deve começar cedo, a partir da instalação ou atualização da box, acompanhando o usuário até um possível offboarding do produto.",
+      },
+      {
+        title: "Evitar uso excessivo de tooltips",
+        text: "É crucial que o usuário não seja bombardeado com tooltips desnecessárias: elas devem ser usadas apenas para informações relevantes.",
+      },
+      {
+        title: "Identificar touchpoints nos fluxos de navegação",
+        text: "Nem todo fluxo e touchpoint precisa necessariamente ser coberto pelo onboarding.",
+      },
+      {
+        title: "Princípio de custo irrecuperável",
+        href: "https://www.researchgate.net/publication/4812596_The_psychology_of_sunk_cost",
+        text: "Ter uma barra de progresso pode ser um recurso poderoso para motivar os usuários a concluir uma tarefa.",
+      },
     ],
   },
 
@@ -253,33 +273,32 @@ const pt: CaseContent = {
     items: [
       {
         title: "Home",
-        text: "Tela de boas-vindas ao assinante sobre a atualização e tooltips contextuais",
+        text: "Área principal da TV, que reúne conteúdos personalizados, ofertas e o continue watching.",
         image: { file: "flow-home", alt: "Página inicial da nova UMA com “Agora na TV” e a campanha “Oferta de 1 mês”." },
       },
       {
         title: "Live TV",
-        // TODO(Lucas): no Figma, Live TV, Program info, EPG Guide, Pesquisa e Settings repetem o texto da Home.
-        text: "Tela de boas-vindas ao assinante sobre a atualização",
+        text: "Player que muda as funcionalidades conforme o tipo de conteúdo: em direto, VOD, esportes etc.",
         image: { file: "flow-live-tv", alt: "Player de TV ao vivo exibindo Doctor Who, com a barra de progresso e o botão “Programação do canal”." },
       },
       {
         title: "Program info",
-        text: "Tela de boas-vindas ao assinante sobre a atualização",
+        text: "Funcionalidades e informações do conteúdo que está sendo assistido.",
         image: { file: "flow-program-info", alt: "Página de detalhes de Doctor Who, com sinopse, ações e lista de temporadas." },
       },
       {
         title: "EPG Guide",
-        text: "Tela de boas-vindas ao assinante sobre a atualização",
+        text: "Guia de programação dos canais, com foco no que está passando e filtros por categoria.",
         image: { file: "flow-epg", alt: "Guia de programação com canais, dias da semana e programas em exibição." },
       },
       {
         title: "Pesquisa",
-        text: "Tela de boas-vindas ao assinante sobre a atualização",
+        text: "Página de busca de conteúdos, elencos, apps e canais de TV.",
         image: { file: "flow-search", alt: "Tela de pesquisa com teclado na tela e a dica para pesquisar por voz pelo comando." },
       },
       {
         title: "Settings",
-        text: "Tela de boas-vindas ao assinante sobre a atualização",
+        text: "Configurações relacionadas ao perfil e à box.",
         image: { file: "flow-settings", alt: "Definições na aba “Gerir perfis”, com a lista de perfis e o perfil da TV." },
       },
     ],
@@ -356,17 +375,29 @@ const pt: CaseContent = {
       {
         title: "Welcome screen",
         text: ["Tela de boas-vindas ao assinante sobre a atualização."],
-        image: { file: "final-welcome", alt: "Welcome screen da UMA: logo amarelo, “Bem-vindo”, texto de apresentação e botão “Começar”." },
+        image: {
+          file: "final-welcome",
+          video: video("welcome-screen"),
+          alt: "Vídeo da welcome screen da UMA: logo amarelo, “Bem-vindo”, texto de apresentação e botão “Começar”; ao saltar a introdução, um aviso pede confirmação e depois indica onde rever a introdução nas Definições.",
+        },
       },
       {
         title: "Player hints",
         text: ["Dicas de navegação na primeira interação com a nova interface."],
-        image: { file: "final-player-hints", alt: "Player com dicas de navegação: Info sobre o programa, Mais opções e Programação do canal." },
+        image: {
+          file: "final-player-hints",
+          video: video("player-hints"),
+          alt: "Vídeo do player com dicas de navegação (Info sobre o programa, Mais opções e Programação do canal), seguido pelo walkthrough da página de Tenet: ações, elenco e onde o filme está disponível.",
+        },
       },
       {
         title: "Walkthrough (que pode ser usado como product tour)",
         text: ["Os passos de walkthrough são usados na maioria dos casos do onboarding."],
-        image: { file: "final-walkthrough", alt: "Guia de canais com um passo do walkthrough sobre filtros e categorias." },
+        image: {
+          file: "final-walkthrough",
+          video: video("guia-epg"),
+          alt: "Vídeo do walkthrough no guia de programação, em 4 passos: canais de TV, dias da semana, programas e conteúdos, e filtros por categoria.",
+        },
       },
       {
         title: "Walkthrough com Now & Next (com destaque)",
@@ -381,7 +412,11 @@ const pt: CaseContent = {
         text: [
           "As dicas dão uma explicação curta e direta sobre um ícone, área, botão etc. Também podem chamar a atenção do usuário para alguma novidade na interface. Sempre aparecem antes de a ação ser realizada.",
         ],
-        image: { file: "final-tooltip", alt: "Página de Doctor Who com uma tooltip contextual azul explicando o botão de recomeçar." },
+        image: {
+          file: "final-tooltip",
+          video: video("program-info"),
+          alt: "Vídeo da página de Doctor Who em que tooltips contextuais azuis aparecem conforme o foco passa pelos botões: ver do início, gravar, ver mais tarde e onde ver.",
+        },
       },
     ],
   },
@@ -474,6 +509,10 @@ const en: CaseContent = {
     description: "Video of the new UMA TV player showing the film Tenet: the playback bar appears with the contextual hint “Watch from the start”.",
   },
   heroImage: { file: pt.heroImage.file, alt: "New UMA TV player showing the film Tenet on TVCine Top, with the hint “Press OK for more options”." },
+  closingImage: {
+    file: "bg-final",
+    alt: "Tilted mosaic of new UMA TV screens on a dark background: home page, player, 1-month free offer and welcome screen.",
+  },
   coverImage: { file: pt.coverImage.file, alt: "A TV in a dark room showing the new UMA TV home page, with the side menu and rows of content." },
 
   problem: {
@@ -604,10 +643,23 @@ const en: CaseContent = {
     ],
     othersTitle: "Other principles",
     others: [
-      { title: "Continuous onboarding" },
-      { title: "Avoid overusing tooltips" },
-      { title: "Identify touchpoints in navigation flows" },
-      { title: "Sunk cost principle" },
+      {
+        title: "Continuous onboarding",
+        text: "Onboarding should start early, from the box installation or update, and stay with the user up to a possible offboarding from the product.",
+      },
+      {
+        title: "Avoid overusing tooltips",
+        text: "It’s crucial not to bombard users with unnecessary tooltips: they should only be used for relevant information.",
+      },
+      {
+        title: "Identify touchpoints in navigation flows",
+        text: "Not every flow and touchpoint needs to be covered by the onboarding.",
+      },
+      {
+        title: "Sunk cost principle",
+        href: pt.heuristics.others[3].href,
+        text: "A progress bar can be a powerful way to motivate users to complete a task.",
+      },
     ],
   },
 
@@ -615,12 +667,12 @@ const en: CaseContent = {
     eyebrow: "Onboarding flow",
     title: "Main areas covered by the onboarding",
     items: [
-      { ...pt.flow.items[0], text: "Welcome screen about the update and contextual tooltips", image: { ...pt.flow.items[0].image, alt: "New UMA home page with “On TV now” and the “1-month offer” campaign." } },
-      { ...pt.flow.items[1], text: "Welcome screen about the update", image: { ...pt.flow.items[1].image, alt: "Live TV player showing Doctor Who, with the progress bar and the “Channel schedule” button." } },
-      { ...pt.flow.items[2], text: "Welcome screen about the update", image: { ...pt.flow.items[2].image, alt: "Doctor Who details page with synopsis, actions and season list." } },
-      { ...pt.flow.items[3], text: "Welcome screen about the update", image: { ...pt.flow.items[3].image, alt: "Programme guide with channels, weekdays and shows on air." } },
-      { ...pt.flow.items[4], title: "Search", text: "Welcome screen about the update", image: { ...pt.flow.items[4].image, alt: "Search screen with an on-screen keyboard and a tip to search by voice with the remote." } },
-      { ...pt.flow.items[5], text: "Welcome screen about the update", image: { ...pt.flow.items[5].image, alt: "Settings on the “Manage profiles” tab, with the profile list and the TV profile." } },
+      { ...pt.flow.items[0], text: "The TV’s main area, bringing together personalised content, offers and continue watching.", image: { ...pt.flow.items[0].image, alt: "New UMA home page with “On TV now” and the “1-month offer” campaign." } },
+      { ...pt.flow.items[1], text: "A player whose features change with the type of content: live, VOD, sports and more.", image: { ...pt.flow.items[1].image, alt: "Live TV player showing Doctor Who, with the progress bar and the “Channel schedule” button." } },
+      { ...pt.flow.items[2], text: "Features and information about what’s being watched.", image: { ...pt.flow.items[2].image, alt: "Doctor Who details page with synopsis, actions and season list." } },
+      { ...pt.flow.items[3], text: "Channel programme guide, focused on what’s on now, with category filters.", image: { ...pt.flow.items[3].image, alt: "Programme guide with channels, weekdays and shows on air." } },
+      { ...pt.flow.items[4], title: "Search", text: "Search for content, cast, apps and TV channels.", image: { ...pt.flow.items[4].image, alt: "Search screen with an on-screen keyboard and a tip to search by voice with the remote." } },
+      { ...pt.flow.items[5], text: "Profile and box settings.", image: { ...pt.flow.items[5].image, alt: "Settings on the “Manage profiles” tab, with the profile list and the TV profile." } },
     ],
   },
 
@@ -680,11 +732,11 @@ const en: CaseContent = {
     title: "Final components designed for validation",
     intro: "These were the components designed to validate with users, later reused in other TV flows.",
     items: [
-      { ...pt.finalComponents.items[0], text: ["Welcome screen for subscribers about the update."], image: { ...pt.finalComponents.items[0].image, alt: "UMA welcome screen: yellow logo, “Bem-vindo” (Welcome), intro text and a “Começar” (Start) button." } },
-      { ...pt.finalComponents.items[1], text: ["Navigation tips at the first interaction with the new interface."], image: { ...pt.finalComponents.items[1].image, alt: "Player with navigation tips: programme info, more options and channel schedule." } },
-      { ...pt.finalComponents.items[2], title: "Walkthrough (also usable as a product tour)", text: ["Walkthrough steps are used in most onboarding cases."], image: { ...pt.finalComponents.items[2].image, alt: "Channel guide with a walkthrough step about filters and categories." } },
+      { ...pt.finalComponents.items[0], text: ["Welcome screen for subscribers about the update."], image: { ...pt.finalComponents.items[0].image, video: video("welcome-screen-en"), alt: "Video of the UMA welcome screen: yellow logo, “Welcome”, intro text and a “Get started” button; skipping the intro asks for confirmation and then shows where to find the introduction again in Settings." } },
+      { ...pt.finalComponents.items[1], text: ["Navigation tips at the first interaction with the new interface."], image: { ...pt.finalComponents.items[1].image, video: video("player-hints-en"), alt: "Video of the player with navigation tips (Program info, More options and Channel guide), followed by the walkthrough of the Tenet page: actions, cast and where the film is available." } },
+      { ...pt.finalComponents.items[2], title: "Walkthrough (also usable as a product tour)", text: ["Walkthrough steps are used in most onboarding cases."], image: { ...pt.finalComponents.items[2].image, video: video("guia-epg-en"), alt: "Video of the walkthrough in the programme guide, in 4 steps: TV channels, days of the week, shows and content, and category filters." } },
       { ...pt.finalComponents.items[3], title: "Walkthrough with Now & Next (with highlight)", text: ["Used in more complex interfaces where we need to show the steps to complete an action.", "The only difference from the regular walkthrough is the opacity."], image: { ...pt.finalComponents.items[3].image, alt: "Walkthrough over Now & Next highlighting a live football match." } },
-      { ...pt.finalComponents.items[4], title: "Contextual tooltip", text: ["Tips give a short, direct explanation of an icon, area, button, etc. They can also draw attention to something new in the interface. They always appear before the action is taken."], image: { ...pt.finalComponents.items[4].image, alt: "Doctor Who page with a blue contextual tooltip explaining the restart button." } },
+      { ...pt.finalComponents.items[4], title: "Contextual tooltip", text: ["Tips give a short, direct explanation of an icon, area, button, etc. They can also draw attention to something new in the interface. They always appear before the action is taken."], image: { ...pt.finalComponents.items[4].image, video: video("program-info-en"), alt: "Video of the Doctor Who page where blue contextual tooltips appear as focus moves across the buttons: watch from the start, record, watch later and where to watch." } },
     ],
   },
 

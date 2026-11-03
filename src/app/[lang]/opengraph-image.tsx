@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { hasLocale, locales } from "@/i18n/config";
+import { hasLocale, activeLocales } from "@/i18n/config";
 import { profile } from "@/content/profile";
 
 export const size = { width: 1200, height: 630 };
@@ -7,7 +7,7 @@ export const contentType = "image/png";
 export const alt = "Lucas Cipriano — Product Designer";
 
 export async function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
+  return activeLocales.map((lang) => ({ lang }));
 }
 
 /** Imagem de compartilhamento (1200×630) gerada a partir dos dados do perfil. */

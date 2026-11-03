@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { lang } from "next/root-params";
 import { preload } from "react-dom";
 import "../globals.css";
-import { hasLocale, htmlLang, locales } from "@/i18n/config";
+import { hasLocale, htmlLang, activeLocales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { profile, siteUrl } from "@/content/profile";
 import { baseOpenGraph } from "@/lib/metadata";
@@ -11,7 +11,7 @@ import { Reveal } from "@/components/Reveal";
 import { ScrollReset } from "@/components/ScrollReset";
 
 export async function generateStaticParams() {
-  return locales.map((l) => ({ lang: l }));
+  return activeLocales.map((l) => ({ lang: l }));
 }
 
 export async function generateMetadata(): Promise<Metadata> {
