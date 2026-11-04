@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/config";
 import type { CaseContent, StickyColor } from "@/content/cases/types";
@@ -121,8 +120,8 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
       <div className="container-page">
         {/* ---------- Resumo + ficha ---------- */}
         <Section id="summary" last>
-          {/* Figma: a ficha (equipe em cima, timeline/plataforma embaixo) ocupa a mesma altura dos parágrafos,
-              alinhada com o primeiro e com o último. Por isso o título fica numa linha própria do grid. */}
+          {/* Figma: a ficha começa na altura do primeiro parágrafo (por isso o título fica numa linha própria do grid),
+              com 88px entre a equipe e timeline/plataforma. */}
           <div className="grid gap-x-12 lg:grid-cols-[minmax(0,40.25rem)_minmax(0,35.375rem)] lg:grid-rows-[auto_1fr] lg:justify-between">
             <h2 data-reveal id="summary-title" className={`${headingClass} lg:col-start-1`}>
               {c.labels.summary}
@@ -130,13 +129,7 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
             <div data-reveal className="mt-6 flex flex-col gap-6 lg:col-start-1">
               {c.summary.map((paragraph) => (
                 <p key={paragraph} className={bodyXl}>
-                  {paragraph.split("\n").map((line, index) => (
-                    <Fragment key={index}>
-                      {index > 0 && <br className="max-lg:hidden" />}
-                      {index > 0 && " "}
-                      {line}
-                    </Fragment>
-                  ))}
+                  {paragraph}
                 </p>
               ))}
             </div>
@@ -144,7 +137,7 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
             <div
               data-reveal
               style={revealDelay(120)}
-              className="mt-12 flex flex-col gap-12 lg:col-start-2 lg:row-start-2 lg:mt-6 lg:justify-between"
+              className="mt-12 flex flex-col gap-12 lg:col-start-2 lg:row-start-2 lg:mt-6 lg:gap-[5.5rem]"
             >
               <div>
                 <h3 className="text-body-xl font-medium leading-normal text-[#333]">{c.labels.team}</h3>
@@ -263,7 +256,8 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
 
         {/* ---------- Personas ---------- */}
         <Section id="personas">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,26.3125rem)_minmax(0,47.625rem)] lg:justify-between">
+          {/* Abaixo de 1150px os cards vão para baixo do texto (lado a lado eles ficavam estreitos demais). */}
+          <div className="grid gap-12 min-[1150px]:grid-cols-[minmax(0,26.3125rem)_minmax(0,47.625rem)] min-[1150px]:justify-between">
             <div className="flex flex-col gap-6">
               <SectionHeader id="personas" eyebrow={c.personas.eyebrow} title={c.personas.title} strong loose />
               <p data-reveal style={revealDelay(80)} className="text-body-lg text-text-secondary">{c.personas.intro}</p>
@@ -353,7 +347,8 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
 
           {/* Desktop: 80px entre o fim do último card (imagem) e "Outros pontos" (64px + 16px de padding).
               relative z-10 bg-white: fica por cima da sobra do último card (ver StackList trimEnd). */}
-          <div data-reveal className="mt-14 grid gap-8 pt-4 lg:relative lg:z-10 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,61.0625rem)] lg:bg-white">
+          {/* Abaixo de 1200px os princípios vão para baixo do título "Outros pontos". */}
+          <div data-reveal className="mt-14 grid gap-8 pt-4 lg:relative lg:z-10 lg:mt-16 lg:bg-white min-[1200px]:grid-cols-[minmax(0,1fr)_minmax(0,61.0625rem)]">
             <h3 className="text-body-xl font-medium leading-[1.2] tracking-[-0.03em] text-[#333]">{c.heuristics.othersTitle}</h3>
             <ul className="grid gap-x-16 gap-y-10 sm:grid-cols-2">
               {c.heuristics.others.map((item) => (
@@ -377,9 +372,16 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
         {/* ---------- Áreas do onboarding ---------- */}
         <Section id="flow">
           <SectionHeader id="flow" eyebrow={c.flow.eyebrow} title={c.flow.title} />
+          {/* Subgrid: título+texto e imagem de cada card ficam em linhas do grid da lista, então as imagens lado a lado
+              começam na mesma altura mesmo quando um texto tem mais linhas que o outro. */}
           <ul className="mt-14 grid gap-x-6 gap-y-12 md:grid-cols-2">
             {c.flow.items.map((item, index) => (
-              <li key={item.title} data-reveal style={revealDelay((index % 2) * 120)} className="flex flex-col gap-6">
+              <li
+                key={item.title}
+                data-reveal
+                style={revealDelay((index % 2) * 120)}
+                className="flex flex-col gap-6 md:row-span-2 md:grid md:grid-rows-subgrid"
+              >
                 <div>
                   <h3 className="text-body-xl font-medium tracking-[-0.03em] text-text-primary">{item.title}</h3>
                   <p className="text-body leading-[1.3125] text-text-secondary">{item.text}</p>
@@ -412,7 +414,12 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
           {/* Quadro de post-its, em HTML (o texto fica legível para buscadores e leitores de tela). */}
           <div data-reveal className="mt-14 rounded-[1.5rem] bg-[#f9f9f9] p-[clamp(1.5rem,4vw,3.5rem)] pt-[clamp(1.5rem,3.4vw,3rem)]">
             <h3 className="text-subtitle font-bold leading-[1.2] tracking-[-0.03em] text-text-primary">{c.critique.board.title}</h3>
-            <div className="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-[18.5rem_28.25rem_15.25rem] lg:justify-between" lang={c.critique.board.lang}>
+            {/* Colunas com largura máxima do Figma que encolhem até 1 post-it (8.75rem) quando falta espaço:
+                os post-its quebram de linha dentro da coluna em vez de vazarem do quadro. */}
+            <div
+              className="mt-10 grid gap-x-[clamp(1.5rem,3vw,2.5rem)] gap-y-10 sm:grid-cols-2 lg:grid-cols-[minmax(8.75rem,18.5rem)_minmax(8.75rem,28.25rem)_minmax(8.75rem,15.25rem)] lg:justify-between"
+              lang={c.critique.board.lang}
+            >
               {c.critique.board.groups.map((group) => (
                 <div key={group.title}>
                   <h4 className="text-body-xl font-bold leading-normal tracking-[-0.03em] text-[#333]">{group.title}</h4>

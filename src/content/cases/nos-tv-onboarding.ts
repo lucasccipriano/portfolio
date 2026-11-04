@@ -39,10 +39,9 @@ const pt: CaseContent = {
     playVideo: "Reproduzir vídeo",
   },
   summary: [
-    // "\n" = quebra de linha do Figma, aplicada só no desktop (no celular o texto quebra sozinho).
-    "A UMA TV é o principal produto de TV da NOS, no qual atuei por\nmais de 2 anos como Product Designer Sênior. Como parte da evolução para uma experiência multiplataforma (STB, Apple TV, Android TV),\nliderei o processo do onboarding para o produto.",
-    "A primeira versão não apresentou bons resultados nos testes com usuários e com prazo apertado para entrega, decidimos adotar\numa abordagem mais simples: tooltips contextuais que introduzem\nas funcionalidades ao longo da jornada.",
-    "A solução foi validada em uma rodada de testes de usabilidade,\ncom cerca de 9 usuários, e lançada com a nova versão da TV\npara cerca de 1 milhão de assinantes.",
+    "A UMA TV é o principal produto de TV da NOS, no qual atuei por mais de 2 anos como Product Designer Sênior. Como parte da evolução para uma experiência multiplataforma (STB, Apple TV, Android TV), liderei o processo do onboarding para o produto.",
+    "A primeira versão não apresentou bons resultados nos testes com usuários e com prazo apertado para entrega, decidimos adotar uma abordagem mais simples: tooltips contextuais que introduzem as funcionalidades ao longo da jornada.",
+    "A solução foi validada em uma rodada de testes de usabilidade, com cerca de 9 usuários, e lançada com a nova versão da TV para cerca de 1 milhão de assinantes.",
   ],
   team: [
     { role: "Design Manager", name: "Nelson Delicado" },
@@ -289,7 +288,7 @@ const pt: CaseContent = {
       },
       {
         title: "EPG Guide",
-        text: "Guia de programação dos canais, com foco no que está passando e filtros por categoria.",
+        text: "Guia de programação dos canais e filtros por categoria.",
         image: { file: "flow-epg", alt: "Guia de programação com canais, dias da semana e programas em exibição." },
       },
       {
@@ -675,7 +674,7 @@ const en: CaseContent = {
       { ...pt.flow.items[0], text: "The TV’s main area, bringing together personalised content, offers and continue watching.", image: { ...pt.flow.items[0].image, alt: "New UMA home page with “On TV now” and the “1-month offer” campaign." } },
       { ...pt.flow.items[1], text: "A player whose features change with the type of content.", image: { ...pt.flow.items[1].image, alt: "Live TV player showing Doctor Who, with the progress bar and the “Channel schedule” button." } },
       { ...pt.flow.items[2], text: "Features and information about what’s being watched.", image: { ...pt.flow.items[2].image, alt: "Doctor Who details page with synopsis, actions and season list." } },
-      { ...pt.flow.items[3], text: "Channel programme guide, focused on what’s on now, with category filters.", image: { ...pt.flow.items[3].image, alt: "Programme guide with channels, weekdays and shows on air." } },
+      { ...pt.flow.items[3], text: "Channel programme guide and category filters.", image: { ...pt.flow.items[3].image, alt: "Programme guide with channels, weekdays and shows on air." } },
       { ...pt.flow.items[4], title: "Search", text: "Search for content, cast, apps and TV channels.", image: { ...pt.flow.items[4].image, alt: "Search screen with an on-screen keyboard and a tip to search by voice with the remote." } },
       { ...pt.flow.items[5], text: "Profile and box settings.", image: { ...pt.flow.items[5].image, alt: "Settings on the “Manage profiles” tab, with the profile list and the TV profile." } },
     ],

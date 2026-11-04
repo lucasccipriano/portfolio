@@ -43,13 +43,20 @@ export function PeopleRow({ total, count, tone }: Props) {
   const color = tone === "negative" ? "text-[#f0372a]" : "text-[#5aa300]";
 
   return (
-    <div ref={ref} aria-hidden="true" className="flex flex-wrap gap-x-[clamp(0.25rem,1.2vw,1rem)] gap-y-2">
+    // Figma: a fileira ocupa a coluna inteira (9 ícones de 56px com 16px entre eles = 632px), de ponta a ponta.
+    // Em telas menores os ícones encolhem junto, sem quebrar linha.
+    <div
+      ref={ref}
+      aria-hidden="true"
+      className="grid w-full max-w-[40.25rem] gap-x-[clamp(0.5rem,1.2vw,1rem)]"
+      style={{ gridTemplateColumns: `repeat(${total}, minmax(0, 1fr))` }}
+    >
       {Array.from({ length: total }, (_, i) => {
         const highlighted = i < count && state !== "idle";
         return (
           <PersonIcon
             key={i}
-            className={`size-[clamp(1.75rem,4vw,3.5rem)] transition-colors duration-300 ${highlighted ? color : "text-[#d9d9d9]"}`}
+            className={`aspect-square h-auto w-full transition-colors duration-300 ${highlighted ? color : "text-[#d9d9d9]"}`}
             style={state === "active" && i < count ? { transitionDelay: `${START_MS + i * STEP_MS}ms` } : undefined}
           />
         );
