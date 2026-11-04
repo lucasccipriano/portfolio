@@ -8,7 +8,7 @@ export const defaultLocale: Locale = "en";
  * para /pt-br/... e o inglês sai do sitemap e do hreflang. Os textos em inglês continuam no código.
  * Para reativar: troque para `true` e devolva as linhas em inglês em public/llms.txt.
  */
-export const ENGLISH_ENABLED = false;
+export const ENGLISH_ENABLED = true;
 
 /** Idiomas publicados (os que aparecem no site, no sitemap e no seletor). */
 export const activeLocales: readonly Locale[] = ENGLISH_ENABLED ? locales : ["pt-br"];

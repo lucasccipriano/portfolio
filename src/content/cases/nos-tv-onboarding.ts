@@ -405,7 +405,11 @@ const pt: CaseContent = {
           "Usado em interfaces mais complexas, nas quais é preciso mostrar os passos para realizar uma ação.",
           "A diferença para o walkthrough normal é apenas a opacidade.",
         ],
-        image: { file: "final-walkthrough-now-next", alt: "Walkthrough sobre o Now & Next destacando a emissão em direto de um jogo de futebol." },
+        image: {
+          file: "final-walkthrough-now-next",
+          video: video("walkthrough-destaques-pt"),
+          alt: "Vídeo de um jogo de futebol em direto em que o walkthrough dos destaques do jogo mostra, em 2 passos, os melhores momentos (golos, substituições, faltas) e como voltar à emissão em direto.",
+        },
       },
       {
         title: "Tooltip contextual",
@@ -735,7 +739,7 @@ const en: CaseContent = {
       { ...pt.finalComponents.items[0], text: ["Welcome screen for subscribers about the update."], image: { ...pt.finalComponents.items[0].image, video: video("welcome-screen-en"), alt: "Video of the UMA welcome screen: yellow logo, “Welcome”, intro text and a “Get started” button; skipping the intro asks for confirmation and then shows where to find the introduction again in Settings." } },
       { ...pt.finalComponents.items[1], text: ["Navigation tips at the first interaction with the new interface."], image: { ...pt.finalComponents.items[1].image, video: video("player-hints-en"), alt: "Video of the player with navigation tips (Program info, More options and Channel guide), followed by the walkthrough of the Tenet page: actions, cast and where the film is available." } },
       { ...pt.finalComponents.items[2], title: "Walkthrough (also usable as a product tour)", text: ["Walkthrough steps are used in most onboarding cases."], image: { ...pt.finalComponents.items[2].image, video: video("guia-epg-en"), alt: "Video of the walkthrough in the programme guide, in 4 steps: TV channels, days of the week, shows and content, and category filters." } },
-      { ...pt.finalComponents.items[3], title: "Walkthrough with Now & Next (with highlight)", text: ["Used in more complex interfaces where we need to show the steps to complete an action.", "The only difference from the regular walkthrough is the opacity."], image: { ...pt.finalComponents.items[3].image, alt: "Walkthrough over Now & Next highlighting a live football match." } },
+      { ...pt.finalComponents.items[3], title: "Walkthrough with Now & Next (with highlight)", text: ["Used in more complex interfaces where we need to show the steps to complete an action.", "The only difference from the regular walkthrough is the opacity."], image: { ...pt.finalComponents.items[3].image, video: video("walkthrough-destaques-en"), alt: "Video of a live football match where the match highlights walkthrough shows, in 2 steps, the best moments (goals, substitutions, fouls) and how to return to the live broadcast." } },
       { ...pt.finalComponents.items[4], title: "Contextual tooltip", text: ["Tips give a short, direct explanation of an icon, area, button, etc. They can also draw attention to something new in the interface. They always appear before the action is taken."], image: { ...pt.finalComponents.items[4].image, video: video("program-info-en"), alt: "Video of the Doctor Who page where blue contextual tooltips appear as focus moves across the buttons: watch from the start, record, watch later and where to watch." } },
     ],
   },
