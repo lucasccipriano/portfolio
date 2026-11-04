@@ -39,9 +39,10 @@ const pt: CaseContent = {
     playVideo: "Reproduzir vídeo",
   },
   summary: [
-    "A UMA TV é o principal produto de TV da NOS, no qual atuei por mais de 2 anos como Product Designer Sênior. Como parte da evolução para uma experiência multiplataforma (STB, Apple TV, Android TV), liderei o processo do onboarding para o produto.",
-    "A primeira versão não apresentou bons resultados nos testes com usuários e, com prazo apertado para a entrega, decidimos adotar uma abordagem mais simples: tooltips contextuais que introduzem as funcionalidades ao longo da jornada.",
-    "A solução foi validada em uma rodada de testes de usabilidade com cerca de 9 usuários e lançada com a nova versão da TV para cerca de 1 milhão de assinantes.",
+    // "\n" = quebra de linha do Figma, aplicada só no desktop (no celular o texto quebra sozinho).
+    "A UMA TV é o principal produto de TV da NOS, no qual atuei por\nmais de 2 anos como Product Designer Sênior. Como parte da evolução para uma experiência multiplataforma (STB, Apple TV, Android TV),\nliderei o processo do onboarding para o produto.",
+    "A primeira versão não apresentou bons resultados nos testes com usuários e com prazo apertado para entrega, decidimos adotar\numa abordagem mais simples: tooltips contextuais que introduzem\nas funcionalidades ao longo da jornada.",
+    "A solução foi validada em uma rodada de testes de usabilidade,\ncom cerca de 9 usuários, e lançada com a nova versão da TV\npara cerca de 1 milhão de assinantes.",
   ],
   team: [
     { role: "Design Manager", name: "Nelson Delicado" },
@@ -509,7 +510,7 @@ const en: CaseContent = {
   platform: pt.platform,
 
   heroVideo: {
-    ...heroVideoFiles,
+    ...video("onboarding_UMA_fluxo-en"),
     description: "Video of the new UMA TV player showing the film Tenet: the playback bar appears with the contextual hint “Watch from the start”.",
   },
   heroImage: { file: pt.heroImage.file, alt: "New UMA TV player showing the film Tenet on TVCine Top, with the hint “Press OK for more options”." },
@@ -768,6 +769,7 @@ const en: CaseContent = {
         title: "Welcome screen + Player hints",
         image: {
           ...pt.usability.screens[0].image,
+          video: video("decision-welcome-hints-en"),
           alt: "Video of the “Welcome to NOS TV” screen over the player, with hints for the remote buttons (rewind/forward, programme info, more actions and channel guide) and the button “Press any key to start watching TV”.",
         },
       },
@@ -775,6 +777,7 @@ const en: CaseContent = {
         title: "Other flows",
         image: {
           ...pt.usability.screens[1].image,
+          video: video("decision-other-flows-en"),
           alt: "Video of the Doctor Who page where contextual tooltips appear on the buttons, such as “Watch from the start” and “Watch later”.",
         },
       },

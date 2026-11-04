@@ -1,8 +1,9 @@
+import { Fragment } from "react";
 import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/config";
 import type { CaseContent, StickyColor } from "@/content/cases/types";
 import type { Project } from "@/content/projects";
-import { resolvePublicImage } from "@/lib/case-images";
+import { resolveLocalizedImage } from "@/lib/case-images";
 import { BeforeAfter } from "./BeforeAfter";
 import { CaseFigure } from "./CaseFigure";
 import { CaseVideo } from "./CaseVideo";
@@ -120,28 +121,46 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
       <div className="container-page">
         {/* ---------- Resumo + ficha ---------- */}
         <Section id="summary" last>
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,40.25rem)_minmax(0,35.375rem)] lg:justify-between lg:items-end">
-            <div data-reveal>
-              <h2 id="summary-title" className={headingClass}>
-                {c.labels.summary}
-              </h2>
-              <div className="mt-6 flex flex-col gap-6">
-                {c.summary.map((paragraph) => (
-                  <p key={paragraph} className={bodyXl}>
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
+          {/* Figma: a ficha (equipe em cima, timeline/plataforma embaixo) ocupa a mesma altura dos parágrafos,
+              alinhada com o primeiro e com o último. Por isso o título fica numa linha própria do grid. */}
+          <div className="grid gap-x-12 lg:grid-cols-[minmax(0,40.25rem)_minmax(0,35.375rem)] lg:grid-rows-[auto_1fr] lg:justify-between">
+            <h2 data-reveal id="summary-title" className={`${headingClass} lg:col-start-1`}>
+              {c.labels.summary}
+            </h2>
+            <div data-reveal className="mt-6 flex flex-col gap-6 lg:col-start-1">
+              {c.summary.map((paragraph) => (
+                <p key={paragraph} className={bodyXl}>
+                  {paragraph.split("\n").map((line, index) => (
+                    <Fragment key={index}>
+                      {index > 0 && <br className="max-lg:hidden" />}
+                      {index > 0 && " "}
+                      {line}
+                    </Fragment>
+                  ))}
+                </p>
+              ))}
             </div>
 
-            <div data-reveal style={revealDelay(120)} className="flex flex-col gap-12">
+            <div
+              data-reveal
+              style={revealDelay(120)}
+              className="mt-12 flex flex-col gap-12 lg:col-start-2 lg:row-start-2 lg:mt-6 lg:justify-between"
+            >
               <div>
                 <h3 className="text-body-xl font-medium leading-normal text-[#333]">{c.labels.team}</h3>
                 <dl className="mt-3 grid grid-cols-2 gap-x-[clamp(1.5rem,6.12vw,5.5rem)] gap-y-6 sm:grid-cols-[repeat(3,8.125rem)]">
                   {c.team.map((member) => (
                     <div key={member.name} className="flex flex-col">
                       <dt className="text-body leading-[1.95] text-text-secondary">{member.role}</dt>
-                      <dd className="max-w-[8ch] text-body font-medium leading-normal text-black">{member.name}</dd>
+                      {/* Figma: nome em uma linha e sobrenome na seguinte. */}
+                      <dd className="text-body font-medium leading-normal text-black">
+                        {member.name.split(" ").map((part, index) => (
+                          <span key={part} className="block">
+                            {index > 0 && <span className="sr-only"> </span>}
+                            {part}
+                          </span>
+                        ))}
+                      </dd>
                     </div>
                   ))}
                 </dl>
@@ -199,8 +218,8 @@ export function CaseStudy({ project, content: c, folder, locale }: Props) {
         <BeforeAfter
           label={c.labels.beforeAfterLabel}
           ratio={c.comparison.left.ratio ?? 16 / 9}
-          left={{ ...c.comparison.left, src: resolvePublicImage(folder, c.comparison.left.file), label: c.labels.compareLeft }}
-          right={{ ...c.comparison.right, src: resolvePublicImage(folder, c.comparison.right.file), label: c.labels.compareRight }}
+          left={{ ...c.comparison.left, src: resolveLocalizedImage(folder, c.comparison.left.file, locale), label: c.labels.compareLeft }}
+          right={{ ...c.comparison.right, src: resolveLocalizedImage(folder, c.comparison.right.file, locale), label: c.labels.compareRight }}
         />
       </div>
 

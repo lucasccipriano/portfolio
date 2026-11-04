@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import type { Locale } from "@/i18n/config";
 
 const EXTENSIONS = [".webp", ".avif", ".png", ".jpg", ".jpeg"];
 
@@ -14,4 +15,16 @@ export function resolvePublicImage(folder: string, file: string): string | null 
     if (fs.existsSync(path.join(process.cwd(), "public", publicPath))) return publicPath;
   }
   return null;
+}
+
+/**
+ * Versão da imagem no idioma da página: em inglês, usa "<nome>-en" se existir (ex.: flow-home-en.png);
+ * senão (ou em português), a imagem original.
+ */
+export function resolveLocalizedImage(folder: string, file: string, locale: Locale): string | null {
+  if (locale !== "pt-br") {
+    const localized = resolvePublicImage(folder, `${file}-${locale}`);
+    if (localized) return localized;
+  }
+  return resolvePublicImage(folder, file);
 }

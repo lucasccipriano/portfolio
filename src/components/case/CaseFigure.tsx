@@ -1,6 +1,6 @@
 import type { Locale } from "@/i18n/config";
 import type { CaseImage } from "@/content/cases/types";
-import { resolvePublicImage } from "@/lib/case-images";
+import { resolveLocalizedImage } from "@/lib/case-images";
 import { ZoomableImage } from "./ZoomableImage";
 
 type Props = {
@@ -27,7 +27,7 @@ export function CaseFigure({
   priority,
 }: Props) {
   const ratio = image.ratio ?? 16 / 9;
-  const src = resolvePublicImage(folder, image.file);
+  const src = resolveLocalizedImage(folder, image.file, locale);
 
   if (!src) {
     return (
