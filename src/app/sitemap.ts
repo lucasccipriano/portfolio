@@ -17,7 +17,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: alternates(""),
   }));
 
-  const work = projects.flatMap((p) =>
+  // Cases protegidos por senha ficam fora do sitemap.
+  const work = projects.filter((p) => !p.locked).flatMap((p) =>
     activeLocales.map((l) => ({
       url: `${siteUrl}/${l}/work/${p.slug}`,
       lastModified: p.dateModified,

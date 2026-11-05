@@ -20,6 +20,8 @@ const en = {
     travelGallery: "Travel photographs",
     localTime: "Local time in Lisbon",
     testimonialsList: "Companies",
+    pauseTestimonials: "Pause testimonial rotation",
+    playTestimonials: "Resume testimonial rotation",
     originalLanguageNote: "Original testimonial in Portuguese.",
   },
   nav: {
@@ -119,6 +121,8 @@ const ptBr: Dictionary = {
     travelGallery: "Fotografias de viagem",
     localTime: "Hora local em Lisboa",
     testimonialsList: "Empresas",
+    pauseTestimonials: "Pausar a troca automática dos depoimentos",
+    playTestimonials: "Retomar a troca automática dos depoimentos",
     originalLanguageNote: "Depoimento original em português.",
   },
   nav: {

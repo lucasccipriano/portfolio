@@ -11,7 +11,11 @@ export type Project = {
   /** Nome curto do case (aparece no header da página do case). */
   shortTitle: Localized;
   summary: Localized;
-  cover: { src: string; width: number; height: number; alt: Localized };
+  /**
+   * Capa do card. `logo`: imagem é um logo, centralizado sobre `background` (sem cortar).
+   * Sem `logo`: imagem ocupa o quadro todo (object-cover).
+   */
+  cover: { src: string; width: number; height: number; alt: Localized; logo?: boolean; background?: string };
   /** Vídeo opcional que toca sobre a capa enquanto o mouse está em cima (arquivos em /public/videos). */
   hoverVideo?: { webm: string; mp4: string };
   /** Ficha do projeto (vira <dl> e JSON-LD). */
@@ -23,6 +27,11 @@ export type Project = {
   datePublished: string;
   dateModified: string;
   keywords: string[];
+  /**
+   * Case protegido por senha: o "Ver mais" abre a tela de desbloqueio (em vez do case),
+   * a página não é indexada e fica fora do sitemap.
+   */
+  locked?: boolean;
 };
 
 export const projects: Project[] = [
@@ -66,6 +75,43 @@ export const projects: Project[] = [
     datePublished: "2026-10-20",
     dateModified: "2026-10-20",
     keywords: ["onboarding", "TV", "streaming", "Android TV", "tvOS", "NOS", "UX"],
+  },
+  {
+    // Case protegido por senha (Figma "3", nó 352:1699): o "Ver mais" abre a tela "Desbloqueio com senha".
+    slug: "privacy-login",
+    company: "Privacy",
+    category: { en: "Web - Mobile", "pt-br": "Web - Mobile" },
+    period: { start: 2025, end: 2026 },
+    shortTitle: { en: "Login redesign", "pt-br": "Redesign do login" },
+    title: {
+      en: "Unlocking five-figure daily revenue with a login redesign",
+      "pt-br": "Destravando receita de 5 dígitos por dia com o redesign do login",
+    },
+    summary: {
+      en: "How the login flow redesign cut the number of users locked out per day by 70% and increased daily revenue.",
+      "pt-br": "Como o redesign do fluxo de login fez os usuários bloqueados por dia caírem 70% e aumentou o faturamento diário.",
+    },
+    cover: {
+      src: "/images/work/privacy/privacy-logo.svg",
+      width: 350,
+      height: 73,
+      logo: true,
+      background: "#f4eee2",
+      alt: { en: "Privacy logo", "pt-br": "Logo da Privacy" },
+    },
+    hoverVideo: {
+      webm: "/videos/home/home-privacy.webm",
+      mp4: "/videos/home/gerados/home-privacy.mp4",
+    },
+    facts: {
+      role: { en: "Senior Product Designer", "pt-br": "Product Designer Sênior" },
+      platforms: { en: "Web, Mobile", "pt-br": "Web, Mobile" },
+      team: { en: [], "pt-br": [] },
+    },
+    datePublished: "2026-11-05",
+    dateModified: "2026-11-05",
+    keywords: ["login", "authentication", "conversion", "Privacy", "UX"],
+    locked: true,
   },
 ];
 

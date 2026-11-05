@@ -14,6 +14,7 @@ import { ArrowRightIcon } from "@/components/Icons";
 import { CaseStudy } from "@/components/case/CaseStudy";
 import { CaseHeader } from "@/components/case/CaseHeader";
 import { getCase } from "@/content/cases";
+import { LockedCase } from "@/components/case/LockedCase";
 
 /**
  * Página toda depende do slug, e todos os slugs são gerados no build (generateStaticParams):
@@ -29,6 +30,10 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work/[slug
   const { lang, slug } = await params;
   const project = getProject(slug);
   if (!hasLocale(lang) || !project) return {};
+  // Case protegido: só a tela de desbloqueio, fora dos buscadores.
+  if (project.locked) {
+    return { title: project.title[lang], robots: { index: false, follow: false } };
+  }
   return {
     title: project.title[lang],
     description: project.summary[lang],
@@ -52,6 +57,22 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/work/[s
   const project = getProject(slug);
   if (!hasLocale(lang) || !project) notFound();
   const dict = getDictionary(lang);
+
+  // Case protegido por senha: tela inteira de desbloqueio (header com Voltar/Esc, sem rodapé).
+  if (project.locked) {
+    return (
+      <>
+        <CaseHeader locale={lang} dict={dict} caseName={project.shortTitle[lang]} />
+        <main id="main" tabIndex={-1} className="focus:outline-none">
+          <LockedCase
+            locale={lang}
+            logo={{ src: project.cover.src, width: project.cover.width, height: project.cover.height, alt: project.cover.alt[lang] }}
+          />
+        </main>
+      </>
+    );
+  }
+
   const caseStudy = getCase(project.slug);
   const date = new Intl.DateTimeFormat(htmlLang[lang], { dateStyle: "long", timeZone: "UTC" });
 

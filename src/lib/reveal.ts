@@ -72,6 +72,16 @@ export function revealElement(el: Element, instant = false) {
   el.animate(REVEAL_KEYFRAMES, { duration: 800, delay, easing: "cubic-bezier(0.35, 0, 0, 1)", fill: "both" });
 }
 
+/**
+ * Toca de novo o efeito de entrada do site num elemento já visível (ex.: troca de depoimento):
+ * mesmo movimento do `revealElement` (opacidade 0 → 1 subindo 30px, 0,8s, mesma curva), sem fila nem observer.
+ * Não faz nada com "reduzir movimento".
+ */
+export function replayReveal(el: Element, delay = 0) {
+  if (!revealActive()) return;
+  el.animate(REVEAL_KEYFRAMES, { duration: 800, delay, easing: "cubic-bezier(0.35, 0, 0, 1)", fill: "both" });
+}
+
 /** Caminho sem o prefixo de idioma ("/pt-br/work/x" → "/work/x"). */
 export const withoutLocale = (path: string) => path.replace(/^\/(pt-br|en)(?=\/|$)/, "");
 

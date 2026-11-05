@@ -15,10 +15,26 @@ type Props = {
   closeLabel: string;
   className?: string;
   priority?: boolean;
+  /** Qualidade da versão otimizada (padrão 90; 100 para telas com texto pequeno). */
+  quality?: number;
+  /** Enquadramento da imagem no quadro (padrão: centro). */
+  imageClassName?: string;
 };
 
-/** Imagem do case que abre ampliada (mesmo overlay do carrossel) ao clicar. */
-export function ZoomableImage({ src, alt, ratio, sizes, locale, enlargeLabel, closeLabel, className = "", priority }: Props) {
+/** Imagem (case, depoimentos) que abre ampliada (mesmo overlay do carrossel) ao clicar. */
+export function ZoomableImage({
+  src,
+  alt,
+  ratio,
+  sizes,
+  locale,
+  enlargeLabel,
+  closeLabel,
+  className = "",
+  priority,
+  quality = 90,
+  imageClassName = "object-cover",
+}: Props) {
   const [open, setOpen] = useState(false);
   const [withKeyboard, setWithKeyboard] = useState(false);
   // Tamanho intrínseco aproximado, só para o overlay manter a proporção.
@@ -40,8 +56,8 @@ export function ZoomableImage({ src, alt, ratio, sizes, locale, enlargeLabel, cl
           alt={alt}
           fill
           sizes={sizes}
-          quality={90}
-          className="object-cover"
+          quality={quality}
+          className={imageClassName}
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : undefined}
         />
