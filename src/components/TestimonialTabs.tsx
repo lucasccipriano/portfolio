@@ -10,9 +10,9 @@ export type TabItem = {
   disabled?: boolean;
   /** Tempo (ms) do loading deste depoimento antes de passar para o próximo. */
   duration?: number;
-  /** Cartão do depoimento (coluna da esquerda, abaixo da lista). */
+  /** Cartão do depoimento (coluna do meio). */
   card?: ReactNode;
-  /** Projeto relacionado (coluna da direita). Opcional. */
+  /** Autor do depoimento (coluna da direita, alinhado à base do cartão). Opcional. */
   aside?: ReactNode;
 };
 
@@ -41,10 +41,10 @@ const subscribeReducedMotion = (onChange: () => void) => {
 };
 
 /**
- * Abas verticais (padrão WAI-ARIA Tabs, ativação automática), no layout do Figma:
- * - esquerda: lista de empresas e, abaixo dela, o cartão do depoimento;
- * - direita: projeto relacionado, alinhado ao topo da lista.
- * No celular tudo vira uma coluna: lista, depoimento, projeto.
+ * Abas verticais (padrão WAI-ARIA Tabs, ativação automática), no layout do Figma (nó 355:2022), em 3 colunas:
+ * - esquerda: lista de empresas; meio: cartão do depoimento (topo alinhado à lista);
+ * - direita: autor (foto, nome, cargo), alinhado à base do cartão.
+ * Abaixo de 1024px tudo vira uma coluna: lista, depoimento, autor.
  *
  * Troca automática (com 2+ depoimentos): ao lado da empresa ativa, uma barra preta enche a trilha cinza
  * (loading de 10s); quando termina, o próximo depoimento entra com fade.
@@ -79,7 +79,7 @@ export function TestimonialTabs({ items, label, pauseLabel, playLabel }: Props) 
 
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
   // Troca de depoimento: o novo entra com o mesmo efeito de entrada do resto do site
-  // (cartão primeiro, projeto da direita 120ms depois, como nos blocos de duas colunas).
+  // (cartão primeiro, autor 120ms depois, como nos blocos de duas colunas).
   useEffect(() => {
     if (!changed) return;
     const panel = panelRefs.current[active];
@@ -88,7 +88,7 @@ export function TestimonialTabs({ items, label, pauseLabel, playLabel }: Props) 
   }, [active, cycle, changed]);
 
   const rotating = canRotate && !stopped;
-  /** Cursor (mouse) sobre a lista, o depoimento ou a imagem: o loading fica pausado. */
+  /** Cursor (mouse) sobre a lista, o depoimento ou o autor: o loading fica pausado. */
   const [hovered, setHovered] = useState(false);
   const running = rotating && !hovered;
   const hoverProps = {
@@ -177,9 +177,9 @@ export function TestimonialTabs({ items, label, pauseLabel, playLabel }: Props) 
   };
 
   return (
-    <div
-      className="relative grid gap-y-6 lg:gap-y-12 lg:grid-cols-[minmax(0,33.3125rem)_minmax(0,1fr)] lg:grid-rows-[auto_1fr] lg:gap-x-6"
-    >
+    // Colunas a partir de 1024px (Figma em 1440): lista (136px, cabe o nome ativo com a barra) · respiro ·
+    // cartão (até 755px) · respiro (64px) · autor (o resto, mín. 240px). Os respiros encolhem até 1024px.
+    <div className="relative grid gap-y-6 lg:grid-cols-[8.5rem_clamp(1.5rem,-8.19rem+15.14vw,5.4375rem)_minmax(0,47.1875rem)_clamp(2rem,-2.925rem+7.69vw,4rem)_minmax(15rem,1fr)]">
       {canRotate && (
         <button
           type="button"
@@ -217,8 +217,10 @@ export function TestimonialTabs({ items, label, pauseLabel, playLabel }: Props) 
                 if (!item.disabled) choose(enabled.indexOf(index));
               }}
               onKeyDown={onKeyDown}
-              className="group flex min-h-10 shrink-0 flex-col items-stretch gap-2 text-left lg:flex-row lg:items-center lg:gap-4 text-lead font-medium leading-none tracking-snug text-text-muted transition-colors aria-selected:text-text-primary aria-disabled:cursor-default not-aria-disabled:cursor-pointer not-aria-disabled:hover:text-text-primary lg:aria-selected:py-2"
+              className="group flex min-h-10 shrink-0 flex-col items-stretch gap-2 text-left lg:flex-row lg:items-center lg:gap-4 text-lead font-medium leading-none tracking-snug text-text-secondary transition-colors lg:text-[1.5rem] lg:tracking-[-0.02em] lg:text-text-muted aria-selected:text-text-primary aria-disabled:cursor-default not-aria-disabled:cursor-pointer not-aria-disabled:hover:text-text-primary lg:aria-selected:py-2"
             >
+              {/* Cinza claro (Figma #a0a0a0) só a partir de 1024px, onde o nome tem 24px (texto grande: contraste 3:1 basta).
+                  Menor que isso, cinza mais escuro para manter o contraste de texto normal (4.5:1). */}
               {/* Trilha do loading. Abaixo de 1024px: horizontal, embaixo do nome (as outras abas guardam o
                   espaço, invisível, para a lista não pular). A partir de 1024px: vertical, à esquerda do nome. */}
               <span
@@ -257,18 +259,17 @@ export function TestimonialTabs({ items, label, pauseLabel, playLabel }: Props) 
             aria-labelledby={`${baseId}-tab-${item.id}`}
             hidden={index !== active}
             tabIndex={0}
-            // No desktop o painel ocupa a grade toda (subgrid) para pôr o cartão
-            // abaixo da lista e o projeto à direita; a lista fica por cima (z-10).
-            className={`flex flex-col gap-12 focus-visible:outline-offset-8 lg:col-span-2 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:grid lg:grid-cols-subgrid lg:grid-rows-subgrid lg:gap-y-12`}
+            // No desktop o painel ocupa a linha toda (subgrid) para pôr o cartão ao lado da lista
+            // e o autor à direita; a lista fica por cima (z-10).
+            className="flex flex-col gap-6 focus-visible:outline-offset-8 lg:col-span-5 lg:col-start-1 lg:row-start-1 lg:grid lg:grid-cols-subgrid"
           >
             {item.card && (
-              <div {...hoverProps} className="lg:col-start-1 lg:row-start-2">
+              <div {...hoverProps} className="lg:col-start-3">
                 {item.card}
               </div>
             )}
-            {/* Projeto relacionado: só a partir de 1024px. */}
             {item.aside && (
-              <div {...hoverProps} className="max-lg:hidden lg:col-start-2 lg:row-span-2 lg:row-start-1">
+              <div {...hoverProps} className="lg:col-start-5 lg:self-end">
                 {item.aside}
               </div>
             )}

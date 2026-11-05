@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ZoomableImage } from "./case/ZoomableImage";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { testimonialCompanies, testimonials, type Testimonial } from "@/content/testimonials";
@@ -8,19 +7,24 @@ import { TestimonialTabs } from "./TestimonialTabs";
 
 type Props = { locale: Locale; dict: Dictionary };
 
+/** Cartão do depoimento (Figma "Frame 70", nó 364:717): logo da empresa e o texto. */
 function TestimonialCard({ item, locale, dict }: { item: Testimonial; locale: Locale; dict: Dictionary }) {
   const isTranslatedContext = item.quoteLang === "pt-BR" && locale !== "pt-br";
 
   return (
-    <figure className="flex w-full flex-col gap-6 rounded-card bg-surface-subtle p-6">
+    <div className="flex w-full flex-col gap-6 rounded-card bg-surface-subtle p-6 sm:p-8">
       {item.logo ? (
         // eslint-disable-next-line @next/next/no-img-element -- SVG pequeno e estático, não precisa de otimização
         <img src={item.logo.src} alt={item.company} width={item.logo.width} height={item.logo.height} className="h-6 w-auto self-start" />
       ) : (
-        <p className="text-body font-bold">{item.company}</p>
+        <p className="text-[1.25rem] font-bold leading-6 tracking-[-0.02em] text-text-primary">{item.company}</p>
       )}
 
-      <blockquote lang={item.quoteLang} className="flex flex-col gap-2 text-body-lg leading-[1.333] text-[#222]">
+      <blockquote
+        lang={item.quoteLang}
+        aria-describedby={`testimonial-author-${item.id}`}
+        className="flex flex-col gap-4 text-[clamp(1.125rem,1rem+0.4vw,1.25rem)] leading-[1.3] text-[#222]"
+      >
         {item.quote.map((paragraph, index) => (
           <p key={index}>
             {index === 0 && "“"}
@@ -30,26 +34,35 @@ function TestimonialCard({ item, locale, dict }: { item: Testimonial; locale: Lo
         ))}
       </blockquote>
       {isTranslatedContext && <p className="sr-only">{dict.a11y.originalLanguageNote}</p>}
+    </div>
+  );
+}
 
-      <figcaption className="flex items-center justify-between gap-4">
-        <span className="flex flex-col">
-          <span className="text-body-lg font-medium leading-normal tracking-[-0.03em] text-text-primary">{item.author.name}</span>
-          <span className="text-body leading-none tracking-[-0.03em] text-text-secondary">{item.author.role[locale]}</span>
+/** Autor do depoimento (Figma "Frame 14788", nó 364:738): foto, nome e cargo, à direita do cartão. */
+function TestimonialAuthor({ item, locale }: { item: Testimonial; locale: Locale }) {
+  return (
+    <p id={`testimonial-author-${item.id}`} className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-6">
+      {item.author.photo && (
+        <Image
+          src={item.author.photo}
+          alt=""
+          width={128}
+          height={128}
+          sizes="64px"
+          // Qualidade máxima: na padrão (75) a conversão para AVIF/WebP borrava o rosto. Continua leve (64px).
+          quality={100}
+          className="size-14 shrink-0 rounded-media object-cover lg:size-16"
+        />
+      )}
+      <span className="flex flex-col gap-[3px]">
+        <span className="text-[clamp(1.25rem,1.1rem+0.5vw,1.5rem)] font-medium leading-tight tracking-[-0.03em] text-text-primary">
+          {item.author.name}
         </span>
-        {item.author.photo && (
-          <Image
-            src={item.author.photo}
-            alt=""
-            width={112}
-            height={112}
-            sizes="56px"
-            // Qualidade máxima: na padrão (75) a conversão para AVIF/WebP borrava o rosto. Continua leve (56px).
-            quality={100}
-            className="size-14 shrink-0 rounded-media object-cover"
-          />
-        )}
-      </figcaption>
-    </figure>
+        <span className="text-[clamp(1.0625rem,1rem+0.3vw,1.25rem)] leading-snug tracking-[-0.03em] text-text-secondary">
+          {item.author.role[locale]}
+        </span>
+      </span>
+    </p>
   );
 }
 
@@ -66,7 +79,7 @@ export function TestimonialsSection({ locale, dict }: Props) {
         </SectionHeading>
       </div>
 
-      <div data-reveal className="mt-[clamp(3rem,2rem+3vw,5.5rem)]">
+      <div data-reveal className="mt-[clamp(2.5rem,2rem+2vw,4.0625rem)]">
         <TestimonialTabs
           label={dict.a11y.testimonialsList}
           pauseLabel={dict.a11y.pauseTestimonials}
@@ -78,35 +91,7 @@ export function TestimonialsSection({ locale, dict }: Props) {
               id: item.id,
               label: item.company,
               card: <TestimonialCard item={item} locale={locale} dict={dict} />,
-              aside: item.project && (
-                <div className="flex flex-col gap-6">
-                  <div>
-                    <h3 className="text-title font-medium leading-[1.3] tracking-tight">{item.project.title[locale]}</h3>
-                    <p className="font-sans text-[1.25rem] font-normal not-italic leading-[1.875rem] tracking-[-0.2px] text-[#222]">{item.project.description[locale]}</p>
-                  </div>
-                  {item.project.image ? (
-                    // Clicar amplia a imagem (mesmo comportamento das imagens do case).
-                    // Mesmo quadro do Figma (755×424) em todos os projetos, para a seção não mudar de altura na troca;
-                    // imagens mais altas são cortadas embaixo (o topo das telas fica visível) e aparecem inteiras ampliadas.
-                    // Qualidade máxima: na padrão a conversão para AVIF deixava manchas no texto das telas.
-                    <ZoomableImage
-                      src={item.project.image.src}
-                      alt={item.project.image.alt[locale]}
-                      ratio={755 / 424}
-                      sizes="(min-width: 1024px) 755px, 100vw"
-                      locale={locale}
-                      enlargeLabel={dict.a11y.enlargeImage}
-                      closeLabel={dict.a11y.closeImage}
-                      quality={100}
-                      imageClassName="object-cover object-top"
-                      className="rounded-card bg-surface-subtle"
-                    />
-                  ) : (
-                    // Sem imagem ainda: o retângulo cinza do Figma (#f8f8f8, 755×424, raio 16).
-                    <div aria-hidden="true" className="aspect-[755/424] w-full rounded-card bg-surface-subtle" />
-                  )}
-                </div>
-              ),
+              aside: <TestimonialAuthor item={item} locale={locale} />,
             };
           })}
         />

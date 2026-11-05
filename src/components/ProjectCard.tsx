@@ -18,6 +18,7 @@ type Props = {
  * Card de projeto (Figma "Frame 62").
  * O card inteiro é clicável por um único link no título (padrão "stretched link"),
  * para não repetir dois links iguais para quem navega pelo teclado.
+ * Case bloqueado (`locked`): ainda sem link, com "Em breve" no lugar de "Ver mais".
  */
 export function ProjectCard({
   project,
@@ -28,6 +29,7 @@ export function ProjectCard({
 }: Props) {
   const href = `/${locale}/work/${project.slug}`;
   const period = `${project.period.start} – ${project.period.end}`;
+  const soon = Boolean(project.locked);
 
   return (
     <article className="group relative grid rounded-sm has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-8 has-[a:focus-visible]:outline-focus gap-8 lg:grid-cols-[minmax(0,33.3125rem)_minmax(0,1fr)] lg:gap-[clamp(2rem,4.8vw,4.25rem)]">
@@ -45,12 +47,16 @@ export function ProjectCard({
             </span>
           </p>
           <Heading className="max-w-[13em] text-title font-medium leading-none tracking-tight text-text-primary">
-            <a
-              href={href}
-              className="after:absolute after:inset-0 after:z-10 after:content-[''] focus-visible:outline-none"
-            >
-              {project.title[locale]}
-            </a>
+            {soon ? (
+              project.title[locale]
+            ) : (
+              <a
+                href={href}
+                className="after:absolute after:inset-0 after:z-10 after:content-[''] focus-visible:outline-none"
+              >
+                {project.title[locale]}
+              </a>
+            )}
           </Heading>
         </div>
 
@@ -59,16 +65,23 @@ export function ProjectCard({
             <p className="max-w-[23.6875rem] text-body-lg text-text-secondary">
               {project.summary[locale]}
             </p>
-            <span
-              aria-hidden="true"
-              className="inline-flex shrink-0 items-center gap-2 text-body font-medium uppercase tracking-[-0.026em] text-text-primary underline-offset-4 group-hover:underline"
-            >
-              {dict.works.seeMore}
-              <ArrowRightIcon
-                size={20}
-                className="transition-transform group-hover:translate-x-1"
-              />
-            </span>
+            {soon ? (
+              // Sem link: o aviso é lido normalmente (não é decorativo como o "Ver mais").
+              <span className="shrink-0 text-body font-medium uppercase tracking-[-0.026em] text-text-primary">
+                {dict.works.comingSoon}
+              </span>
+            ) : (
+              <span
+                aria-hidden="true"
+                className="inline-flex shrink-0 items-center gap-2 text-body font-medium uppercase tracking-[-0.026em] text-text-primary underline-offset-4 group-hover:underline"
+              >
+                {dict.works.seeMore}
+                <ArrowRightIcon
+                  size={20}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </span>
+            )}
           </div>
           {divider && <div aria-hidden="true" className="h-px bg-[#eee] max-lg:hidden" />}
         </div>

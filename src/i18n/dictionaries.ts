@@ -44,6 +44,7 @@ const en = {
     title: "Works",
     subtitle: "Selected projects from the following companies",
     seeMore: "See more",
+    comingSoon: "Coming soon",
     seeMoreAbout: "about",
   },
   about: {
@@ -145,6 +146,7 @@ const ptBr: Dictionary = {
     title: "Trabalhos",
     subtitle: "Projetos selecionados das seguintes empresas",
     seeMore: "Ver mais",
+    comingSoon: "Em breve",
     seeMoreAbout: "sobre",
   },
   about: {
