@@ -18,8 +18,11 @@ type Props = {
   /** Conteúdo do botão (texto e ícone), com o mesmo visual dos outros links. */
   children: ReactNode;
   triggerClassName: string;
-  /** Lado em que o menu se alinha ao botão. "end-lg": à esquerda no celular, à direita no desktop. */
-  align?: "start" | "end" | "end-lg";
+  /**
+   * Lado em que o menu se alinha ao botão. "end-lg"/"end-md": à esquerda no celular,
+   * à direita a partir de 1024px / 768px (acompanha listas que só se alinham à direita nesse tamanho).
+   */
+  align?: "start" | "end" | "end-lg" | "end-md";
   /** Abrir para cima (ex.: no rodapé, perto do fim da página). */
   placement?: "bottom" | "top";
 };
@@ -149,7 +152,7 @@ export function EmailMenu({ email, labels, children, triggerClassName, align = "
           onKeyDown={onMenuKeyDown}
           data-align={align}
           data-placement={placement}
-          className="absolute z-30 w-max min-w-56 rounded-xl border border-border bg-surface p-1.5 text-text-primary shadow-[0_12px_32px_rgba(0,0,0,0.14)] data-[align=end]:right-0 data-[align=start]:left-0 data-[align=end-lg]:left-0 lg:data-[align=end-lg]:left-auto lg:data-[align=end-lg]:right-0 data-[placement=bottom]:top-full data-[placement=bottom]:mt-2 data-[placement=top]:bottom-full data-[placement=top]:mb-2"
+          className="absolute z-30 w-max min-w-56 rounded-xl border border-border bg-surface p-1.5 text-text-primary shadow-[0_12px_32px_rgba(0,0,0,0.14)] data-[align=end]:right-0 data-[align=start]:left-0 data-[align=end-lg]:left-0 lg:data-[align=end-lg]:left-auto lg:data-[align=end-lg]:right-0 data-[align=end-md]:left-0 md:data-[align=end-md]:left-auto md:data-[align=end-md]:right-0 data-[placement=bottom]:top-full data-[placement=bottom]:mt-2 data-[placement=top]:bottom-full data-[placement=top]:mb-2"
         >
           {options.map((option, index) => (
             <a

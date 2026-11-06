@@ -32,7 +32,7 @@ export function SiteHeader({ locale, dict, isHome = false }: Props) {
 
         <MenuDisclosure openLabel={dict.a11y.openMenu} closeLabel={dict.a11y.closeMenu}>
           <nav aria-label={dict.a11y.mainNav} className="lg:ml-auto lg:w-[min(100%,49.5625rem)]">
-            <ul className="flex flex-col divide-y divide-border lg:flex-row lg:items-start lg:justify-between lg:divide-y-0">
+            <ul className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
               <li className="flex flex-col py-2 lg:py-0">
                 <span className={itemLabel}>{dict.nav.location}</span>
                 <LisbonClock

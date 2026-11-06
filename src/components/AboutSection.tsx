@@ -89,13 +89,14 @@ export function AboutSection({ locale, dict }: Props) {
             <span aria-hidden="true">— </span>
             {dict.about.bio}
           </p>
-          <ul data-reveal style={revealDelay(120)} className="flex flex-col gap-1.5 md:items-end" aria-label={locale === "pt-br" ? "Contato e redes" : "Contact and profiles"}>
+          <ul data-reveal style={revealDelay(120)} className="relative z-10 flex flex-col gap-1.5 md:items-end" aria-label={locale === "pt-br" ? "Contato e redes" : "Contact and profiles"}>
             <li>
               <EmailMenu
                 email={profile.contact.email}
                 labels={{ ...dict.email, opensInNewTab: dict.a11y.opensInNewTab }}
                 triggerClassName={`${socialLinkClass} cursor-pointer`}
-                align="end"
+                // A lista fica à esquerda no celular e à direita a partir de 768px.
+                align="end-md"
               >
                 {dict.about.email}
                 <ArrowUpRightIcon size={16} className={hoverArrow} />
