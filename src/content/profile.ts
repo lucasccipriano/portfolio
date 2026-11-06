@@ -56,9 +56,9 @@ export const profile = {
   },
   image: "/images/about/portrait.jpg",
   cv: {
-    // TODO(Lucas): colocar o PDF em /public/cv/ e atualizar o tamanho.
+    // Para trocar o currículo: substitua o PDF em /public/cv/ (mesmo nome) e atualize o tamanho.
     href: "/cv/lucas-cipriano-cv.pdf",
-    sizeLabel: null as string | null, // ex.: "220 KB"
+    sizeLabel: "91 KB" as string | null,
   },
   contact: {
     email: "lucasccipriano@gmail.com",
