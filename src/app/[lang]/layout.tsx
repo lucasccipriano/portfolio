@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { notFound } from "next/navigation";
 import { lang } from "next/root-params";
 import { preload } from "react-dom";
@@ -57,6 +58,8 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
         {children}
         <Reveal />
         <ScrollReset />
+        {/* Vercel Web Analytics: só envia dados no site publicado na Vercel (no localhost não faz nada). */}
+        <Analytics />
       </body>
     </html>
   );
