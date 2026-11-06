@@ -35,7 +35,7 @@ const en = {
     language: "Language",
   },
   hero: {
-    intro: "I’m Lucas — Product Designer with",
+    intro: "I’m Lucas — Senior Product Designer with",
     middle: "experience designing products used by millions.",
     currently: "Currently at",
     previously: "Previously: NOS, Globo and Cielo",
@@ -137,7 +137,7 @@ const ptBr: Dictionary = {
     language: "Idioma",
   },
   hero: {
-    intro: "Sou o Lucas — Product Designer com",
+    intro: "Sou o Lucas — Senior Product Designer com",
     middle: "experiência em produtos usados por milhões de pessoas.",
     currently: "Atualmente na",
     previously: "Antes: NOS, Globo e Cielo",
