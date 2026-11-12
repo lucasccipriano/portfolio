@@ -22,7 +22,7 @@ const en = {
     testimonialsList: "Companies",
     pauseTestimonials: "Pause testimonial rotation",
     playTestimonials: "Resume testimonial rotation",
-    originalLanguageNote: "Original testimonial in Portuguese.",
+    originalLanguageNote: "Testimonial translated from Portuguese.",
   },
   nav: {
     location: "Lisbon, PT",
@@ -124,7 +124,7 @@ const ptBr: Dictionary = {
     testimonialsList: "Empresas",
     pauseTestimonials: "Pausar a troca automática dos depoimentos",
     playTestimonials: "Retomar a troca automática dos depoimentos",
-    originalLanguageNote: "Depoimento original em português.",
+    originalLanguageNote: "Depoimento traduzido do inglês.",
   },
   nav: {
     location: "Lisboa, PT",

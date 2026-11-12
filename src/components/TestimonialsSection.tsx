@@ -9,7 +9,10 @@ type Props = { locale: Locale; dict: Dictionary };
 
 /** Cartão do depoimento (Figma "Frame 70", nó 364:717): logo da empresa e o texto. */
 function TestimonialCard({ item, locale, dict }: { item: Testimonial; locale: Locale; dict: Dictionary }) {
-  const isTranslatedContext = item.quoteLang === "pt-BR" && locale !== "pt-br";
+  const paragraphs = item.quote[locale];
+  const textLang = locale === "pt-br" ? "pt-BR" : "en";
+  // Versão no idioma do site; se não for o idioma em que foi escrito, avisa o leitor de tela que é tradução.
+  const isTranslation = item.quoteLang !== textLang;
 
   return (
     <div className="flex w-full flex-col gap-6 rounded-card bg-surface-subtle p-6 sm:p-8">
@@ -21,19 +24,19 @@ function TestimonialCard({ item, locale, dict }: { item: Testimonial; locale: Lo
       )}
 
       <blockquote
-        lang={item.quoteLang}
+        lang={textLang}
         aria-describedby={`testimonial-author-${item.id}`}
         className="flex flex-col gap-4 text-[clamp(1.125rem,1rem+0.4vw,1.25rem)] leading-[1.3] text-[#222]"
       >
-        {item.quote.map((paragraph, index) => (
+        {paragraphs.map((paragraph, index) => (
           <p key={index}>
             {index === 0 && "“"}
             {paragraph}
-            {index === item.quote.length - 1 && "”"}
+            {index === paragraphs.length - 1 && "”"}
           </p>
         ))}
       </blockquote>
-      {isTranslatedContext && <p className="sr-only">{dict.a11y.originalLanguageNote}</p>}
+      {isTranslation && <p className="sr-only">{dict.a11y.originalLanguageNote}</p>}
     </div>
   );
 }
