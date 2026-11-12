@@ -1,43 +1,15 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 
-type Place = { city: string; timeZone: string; label: string };
-type Props = {
-  locale: "pt-BR" | "en";
-  /** Padrão: Lisboa. */
-  place: Place;
-  /** Mostrado para quem acessa do continente americano (fuso do navegador "America/..."). */
-  americas: Place;
-  cityClassName?: string;
-};
-
-const noop = () => () => {};
-/** O fuso do navegador indica de que continente a pessoa acessa (sem pedir localização). */
-const isInAmericas = () => {
-  try {
-    return Intl.DateTimeFormat()
-      .resolvedOptions()
-      .timeZone.startsWith("America/");
-  } catch {
-    return false;
-  }
-};
+type Props = { locale: "pt-BR" | "en"; timeZone: string; label: string };
 
 /**
- * Cidade + relógio do header (detalhe do Figma): Lisboa por padrão e Rio de Janeiro para quem
- * acessa do continente americano. O servidor renderiza Lisboa e um marcador no lugar da hora;
- * o navegador troca a cidade (se for o caso) e mostra a hora, evitando divergência de hidratação.
- * Não é anunciado a cada segundo.
+ * Relógio com a hora local de Lisboa (detalhe do Figma).
+ * Renderiza um marcador no servidor e só mostra a hora no navegador,
+ * evitando divergência de hidratação. Não é anunciado a cada segundo.
  */
-export function LisbonClock({
-  locale,
-  place: lisbon,
-  americas,
-  cityClassName,
-}: Props) {
-  const inAmericas = useSyncExternalStore(noop, isInAmericas, () => false);
-  const { city, timeZone, label } = inAmericas ? americas : lisbon;
+export function LisbonClock({ locale, timeZone, label }: Props) {
   const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
@@ -60,16 +32,13 @@ export function LisbonClock({
     : "--:--:--";
 
   return (
-    <>
-      <span className={cityClassName}>{city}</span>
-      <time
-        dateTime={now?.toISOString()}
-        title={label}
-        className="block min-w-[10ch] text-caption tracking-wide text-text-secondary tabular-nums"
-        suppressHydrationWarning
-      >
-        {text}
-      </time>
-    </>
+    <time
+      dateTime={now?.toISOString()}
+      title={label}
+      className="block min-w-[10ch] text-caption tracking-wide text-text-secondary tabular-nums"
+      suppressHydrationWarning
+    >
+      {text}
+    </time>
   );
 }

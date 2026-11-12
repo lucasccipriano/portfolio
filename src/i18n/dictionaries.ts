@@ -19,7 +19,6 @@ const en = {
     heroGallery: "Selected product design work",
     travelGallery: "Travel photographs",
     localTime: "Local time in Lisbon",
-    localTimeRio: "Local time in Rio de Janeiro",
     testimonialsList: "Companies",
     pauseTestimonials: "Pause testimonial rotation",
     playTestimonials: "Resume testimonial rotation",
@@ -27,7 +26,6 @@ const en = {
   },
   nav: {
     location: "Lisbon, PT",
-    locationRio: "Rio de Janeiro, BR",
     work: "Work",
     workYears: "19 → 26",
     about: "About",
@@ -123,7 +121,6 @@ const ptBr: Dictionary = {
     heroGallery: "Trabalhos de product design selecionados",
     travelGallery: "Fotografias de viagem",
     localTime: "Hora local em Lisboa",
-    localTimeRio: "Hora local no Rio de Janeiro",
     testimonialsList: "Empresas",
     pauseTestimonials: "Pausar a troca automática dos depoimentos",
     playTestimonials: "Retomar a troca automática dos depoimentos",
@@ -131,7 +128,6 @@ const ptBr: Dictionary = {
   },
   nav: {
     location: "Lisboa, PT",
-    locationRio: "Rio de Janeiro, BR",
     work: "Trabalhos",
     workYears: "19 → 26",
     about: "Sobre",
