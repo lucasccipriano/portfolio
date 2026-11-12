@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Project } from "@/content/projects";
+import { ComingSoonCursor } from "./ComingSoonCursor";
 import { HoverVideo } from "./HoverVideo";
 import { ArrowRightIcon } from "./Icons";
 
@@ -32,7 +33,11 @@ export function ProjectCard({
   const soon = Boolean(project.locked);
 
   return (
-    <article className="group relative grid rounded-sm has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-8 has-[a:focus-visible]:outline-focus gap-8 lg:grid-cols-[minmax(0,33.3125rem)_minmax(0,1fr)] lg:gap-[clamp(2rem,4.8vw,4.25rem)]">
+    <article
+      // Case bloqueado: com mouse, o cursor vira a pílula "Em breve" (ComingSoonCursor).
+      className={`group relative grid rounded-sm has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-8 has-[a:focus-visible]:outline-focus gap-8 lg:grid-cols-[minmax(0,33.3125rem)_minmax(0,1fr)] lg:gap-[clamp(2rem,4.8vw,4.25rem)] ${soon ? "[@media(hover:hover)_and_(pointer:fine)]:cursor-none" : ""}`}
+    >
+      {soon && <ComingSoonCursor label={dict.works.comingSoon} />}
       <div className="flex flex-col justify-between gap-8 lg:order-1 lg:min-h-[27.25rem]">
         <div className="flex flex-col gap-6">
           <p className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-body uppercase tracking-wide text-text-secondary">
