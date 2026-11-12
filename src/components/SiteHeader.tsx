@@ -34,11 +34,11 @@ export function SiteHeader({ locale, dict, isHome = false }: Props) {
           <nav aria-label={dict.a11y.mainNav} className="lg:ml-auto lg:w-[min(100%,49.5625rem)]">
             <ul className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
               <li className="flex flex-col py-2 lg:py-0">
-                <span className={itemLabel}>{dict.nav.location}</span>
                 <LisbonClock
                   locale={htmlLang[locale] === "pt-BR" ? "pt-BR" : "en"}
-                  timeZone={profile.location.timeZone}
-                  label={dict.a11y.localTime}
+                  cityClassName={itemLabel}
+                  place={{ city: dict.nav.location, timeZone: profile.location.timeZone, label: dict.a11y.localTime }}
+                  americas={{ city: dict.nav.locationSaoPaulo, timeZone: "America/Sao_Paulo", label: dict.a11y.localTimeSaoPaulo }}
                 />
               </li>
               <li>
