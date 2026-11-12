@@ -25,7 +25,7 @@ const isInAmericas = () => {
 };
 
 /**
- * Cidade + relógio do header (detalhe do Figma): Lisboa por padrão e São Paulo para quem
+ * Cidade + relógio do header (detalhe do Figma): Lisboa por padrão e Rio de Janeiro para quem
  * acessa do continente americano. O servidor renderiza Lisboa e um marcador no lugar da hora;
  * o navegador troca a cidade (se for o caso) e mostra a hora, evitando divergência de hidratação.
  * Não é anunciado a cada segundo.

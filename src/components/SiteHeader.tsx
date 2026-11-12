@@ -38,7 +38,7 @@ export function SiteHeader({ locale, dict, isHome = false }: Props) {
                   locale={htmlLang[locale] === "pt-BR" ? "pt-BR" : "en"}
                   cityClassName={itemLabel}
                   place={{ city: dict.nav.location, timeZone: profile.location.timeZone, label: dict.a11y.localTime }}
-                  americas={{ city: dict.nav.locationSaoPaulo, timeZone: "America/Sao_Paulo", label: dict.a11y.localTimeSaoPaulo }}
+                  americas={{ city: dict.nav.locationRio, timeZone: "America/Sao_Paulo" /* mesmo fuso do Rio de Janeiro */, label: dict.a11y.localTimeRio }}
                 />
               </li>
               <li>
