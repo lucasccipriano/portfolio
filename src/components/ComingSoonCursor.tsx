@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 const noop = () => () => {};
 
 /**
- * Cursor "Em breve" do case bloqueado: uma pílula branca (90% de opacidade) que segue o mouse
+ * Cursor "Em breve" do case bloqueado: uma pílula preta que segue o mouse
  * enquanto ele está sobre o card. Só com mouse (no toque não existe hover) e decorativa:
  * o "Em breve" continua escrito no card para leitores de tela.
  * Fica dentro do card e escuta o mouse no elemento pai (o próprio card).
@@ -60,7 +60,7 @@ export function ComingSoonCursor({ label }: { label: string }) {
             ref={pillRef}
             aria-hidden="true"
             data-visible={visible}
-            className="pointer-events-none fixed top-0 left-0 z-50 whitespace-nowrap rounded-full bg-white/90 px-4 py-2.5 text-[0.875rem] font-medium leading-none text-[#111] opacity-0 transition-opacity duration-150 data-[visible=true]:opacity-100 motion-reduce:transition-none"
+            className="pointer-events-none fixed top-0 left-0 z-50 whitespace-nowrap rounded-full bg-[#111] px-4 py-2.5 text-[0.875rem] font-medium leading-none text-white opacity-0 transition-opacity duration-150 data-[visible=true]:opacity-100 motion-reduce:transition-none"
           >
             {label}
           </span>,
