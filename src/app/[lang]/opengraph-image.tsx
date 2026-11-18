@@ -41,7 +41,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ lan
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 28, color: "#aaaaaa" }}>
           <span>{profile.location.cityLocalized[locale]}, PT</span>
           <span style={{ color: "#e06a1f" }}>
-            {locale === "pt-br" ? "Atualmente na" : "Currently at"} {profile.currentCompany.name}
+            {locale === "pt-br" ? "Aberto a oportunidades e relocação" : "Open to work and relocation"}
           </span>
         </div>
       </div>

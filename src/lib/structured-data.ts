@@ -24,7 +24,6 @@ export function personSchema(locale: Locale) {
     },
     knowsAbout: profile.knowsAbout,
     knowsLanguage: profile.languages,
-    worksFor: { "@type": "Organization", name: profile.currentCompany.name, url: profile.currentCompany.url },
     ...(sameAs.length > 0 && { sameAs }),
   };
 }

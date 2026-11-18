@@ -1,9 +1,11 @@
+import { Fragment } from "react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { profile } from "@/content/profile";
 import { heroMedia } from "@/content/media";
 import { MediaMarquee } from "./MediaMarquee";
 import { revealDelay } from "@/lib/reveal";
+import { ExternalLink } from "./ExternalLink";
 
 type Props = { locale: Locale; dict: Dictionary };
 
@@ -17,9 +19,23 @@ export function Hero({ locale, dict }: Props) {
         >
           {dict.hero.intro} <br className="max-md:hidden" />
           {dict.hero.middle} <br className="max-md:hidden" />
-          {dict.hero.currently} <span className="text-text-accent">{profile.currentCompany.name}</span>
+          {dict.hero.openToWork}
         </h1>
-        <p style={revealDelay(120)} className="reveal-intro mt-4 text-subhero text-text-secondary">{dict.hero.previously}</p>
+        <p style={revealDelay(120)} className="reveal-intro mt-4 text-subhero text-text-secondary">
+          {dict.hero.previously}{" "}
+          {profile.previousCompanies.map((company, i, all) => (
+            <Fragment key={company.name}>
+              {i > 0 && (i === all.length - 1 ? ` ${dict.hero.and} ` : ", ")}
+              <ExternalLink
+                href={company.url}
+                newTabLabel={dict.a11y.opensInNewTab}
+                className="underline-offset-4 hover:text-text-primary hover:underline"
+              >
+                {company.name}
+              </ExternalLink>
+            </Fragment>
+          ))}
+        </p>
       </div>
 
       <div style={revealDelay(240)} className="reveal-intro">

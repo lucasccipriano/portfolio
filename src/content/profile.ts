@@ -18,8 +18,13 @@ export const profile = {
     en: "Product Designer Senior",
     "pt-br": "Product Designer Sênior",
   } satisfies Localized,
-  currentCompany: { name: "Privacy", url: "https://privacy.com.br" },
-  previousCompanies: ["NOS", "Globo", "Cielo"],
+  /** Empresas listadas no hero ("Previously: …"), cada uma com link para o produto. */
+  previousCompanies: [
+    { name: "Privacy", url: "https://privacy.com.br/" },
+    { name: "NOS", url: "https://www.nos.pt/tv/boxv4" },
+    { name: "Globo", url: "https://globoplay.globo.com/" },
+    { name: "Cielo", url: "https://cielo.com.br/gateway-de-pagamento/" },
+  ],
   yearsOfExperience: 8,
   careerStartYear: 2019,
   location: {
@@ -46,9 +51,9 @@ export const profile = {
   ],
   /** Descrição factual usada em meta description e JSON-LD (precisa refletir o que está visível na página). */
   description: {
-    en: "Lucas Cipriano is a Brazilian Product Designer based in Lisbon, Portugal, with 8 years of experience designing digital products used by millions in fintech, education, TV and streaming, social networks and the creator economy. Currently at Privacy; previously at NOS, Globo and Cielo.",
+    en: "Lucas Cipriano is a Brazilian Product Designer based in Lisbon, Portugal, with 8 years of experience designing digital products used by millions in fintech, education, TV and streaming, social networks and the creator economy. Previously at Privacy, NOS, Globo and Cielo. Open to work and relocation.",
     "pt-br":
-      "Lucas Cipriano é um Product Designer brasileiro baseado em Lisboa, Portugal, com 8 anos de experiência em produtos digitais usados por milhões de pessoas em fintech, educação, TV e streaming, redes sociais e creator economy. Atualmente na Privacy; antes, NOS, Globo e Cielo.",
+      "Lucas Cipriano é um Product Designer brasileiro baseado em Lisboa, Portugal, com 8 anos de experiência em produtos digitais usados por milhões de pessoas em fintech, educação, TV e streaming, redes sociais e creator economy. Antes, Privacy, NOS, Globo e Cielo. Aberto a oportunidades e relocação.",
   } satisfies Localized,
   availability: {
     onsite: { en: "On-site: Portugal, Europe", "pt-br": "Presencial: Portugal, Europa" } satisfies Localized,
@@ -58,7 +63,7 @@ export const profile = {
   cv: {
     // Para trocar o currículo: substitua o PDF em /public/cv/ (mesmo nome) e atualize o tamanho.
     href: "/cv/lucas-cipriano-cv.pdf",
-    sizeLabel: "91 KB" as string | null,
+    sizeLabel: "103 KB" as string | null,
   },
   contact: {
     email: "lucasccipriano@gmail.com",

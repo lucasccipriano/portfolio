@@ -37,8 +37,9 @@ const en = {
   hero: {
     intro: "I’m Lucas — Senior Product Designer with",
     middle: "experience designing products used by millions.",
-    currently: "Currently at",
-    previously: "Previously: NOS, Globo and Cielo",
+    openToWork: "Open to work and relocation",
+    previously: "Previously:",
+    and: "and",
   },
   works: {
     title: "Works",
@@ -139,8 +140,9 @@ const ptBr: Dictionary = {
   hero: {
     intro: "Sou o Lucas — Senior Product Designer com",
     middle: "experiência em produtos usados por milhões de pessoas.",
-    currently: "Atualmente na",
-    previously: "Antes: NOS, Globo e Cielo",
+    openToWork: "Aberto a oportunidades e relocação",
+    previously: "Antes:",
+    and: "e",
   },
   works: {
     title: "Trabalhos",
